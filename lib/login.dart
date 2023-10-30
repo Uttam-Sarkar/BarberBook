@@ -1,4 +1,7 @@
 import 'package:barberbook/register.dart';
+import 'package:barberbook/serviceProviderScreen.dart';
+import 'package:barberbook/userScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -99,11 +102,11 @@ class _MyLoginState extends State<MyLogin> {
                               FirebaseAuth.instance
                                   .signInWithEmailAndPassword(
                                   email : userEmail.text,
-                                  password : userPassword.text)
-                                  .then((value){
-                                    print('Sign in with an account.');
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context)=> MyLogout()));
+                                  password : userPassword.text, )
+                                  .then((value) {
+                                print('Sign in with an account.');
+                                // path of User or ServiceProvider
+                                route();
                               }).onError((error, stackTrace){
                                 print("Error ${error.toString()}");
                               });
@@ -145,4 +148,33 @@ class _MyLoginState extends State<MyLogin> {
       ),
     );
   }
+void route() {
+  User? user = FirebaseAuth.instance.currentUser;
+  var kk = FirebaseFirestore.instance
+      .collection('users')
+      .doc(user!.uid)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      if (documentSnapshot.get('rool') == "ServiceProvoder") {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>  ServiceProviderScreen(),
+          ),
+        );
+      }else{
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>  UserScreen(),
+          ),
+        );
+      }
+    } else {
+      print('Document does not exist on the database');
+    }
+  });
+}
+
 }

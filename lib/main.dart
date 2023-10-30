@@ -1,4 +1,5 @@
 import 'package:barberbook/firebase_options.dart';
+import 'package:barberbook/register.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: const MyLogin(),
+      home: const MyRegister(),
     );
   }
 }

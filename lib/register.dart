@@ -1,5 +1,6 @@
 import 'package:barberbook/login.dart';
 import 'package:barberbook/logout.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,15 @@ class MyRegister extends StatefulWidget {
 class _MyRegisterState extends State<MyRegister> {
   final  userEmail = TextEditingController();
   final  userPassword = TextEditingController();
+  final userName = TextEditingController();
+
+  var options = [
+    'User',
+    'ServiceProvoder',
+  ];
+  var _currentItemSelected = "User";
+  var rool = "User";
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,6 +50,7 @@ class _MyRegisterState extends State<MyRegister> {
                 child: Column(
                   children: [
                     TextField(
+                      controller: userName,
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -92,7 +103,51 @@ class _MyRegisterState extends State<MyRegister> {
                           )
                       ),
                     ),
-                    SizedBox(height: 40,),
+                SizedBox(height: 20,),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Resister as a : ",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff4c505b),
+                      ),
+                    ),
+
+                    DropdownButton<String>(
+                      dropdownColor: Colors.blue[200],
+                      isDense: true,
+                      isExpanded: false,
+                      iconEnabledColor: Colors.blue,
+                      focusColor: Colors.transparent,
+                      items: options.map((String dropDownStringItem) {
+                        return DropdownMenuItem<String>(
+                          value: dropDownStringItem,
+                          child: Text(
+                            dropDownStringItem,
+                            style: TextStyle(
+                              color: Color(0xff4c505b),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (newValueSelected) {
+                        setState(() {
+                          _currentItemSelected = newValueSelected!;
+                          rool = newValueSelected;
+                        });
+                      },
+                      value: _currentItemSelected,
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -110,14 +165,19 @@ class _MyRegisterState extends State<MyRegister> {
                             color: Colors.white,
                             onPressed: (){
                      //Firebase
+
                               FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
                                   email : userEmail.text,
                                   password : userPassword.text)
                                   .then((value){
+                                    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+                                    var user = FirebaseAuth.instance.currentUser;
+                                    CollectionReference ref = FirebaseFirestore.instance.collection('users');
+                                    ref.doc(user!.uid).set({'name': userName.text, 'email': userEmail.text, 'rool': rool});
                                     print('Created new account.');
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context)=> MyLogout()));
+                                    MaterialPageRoute(builder: (context)=> MyLogin()));
                               }).onError((error, stackTrace){
                                 print("Error ${error.toString()}");
                               });

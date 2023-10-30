@@ -2,8 +2,6 @@ import 'package:barberbook/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
-
 
 class MyLogout extends StatefulWidget {
   const MyLogout({super.key});

@@ -22,7 +22,7 @@ class _MyLoginState extends State<MyLogin> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/login.png'), fit: BoxFit.cover)
       ),
@@ -32,8 +32,8 @@ class _MyLoginState extends State<MyLogin> {
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 38, top: 140),
-              child: Text(
+              padding: const EdgeInsets.only(left: 38, top: 140),
+              child: const Text(
                 'Welcome\nBack',
                 style: TextStyle(color: Colors.white, fontSize: 35),),
             ),
@@ -55,7 +55,7 @@ class _MyLoginState extends State<MyLogin> {
                         )
                       ),
                     ),
-                    SizedBox(height: 30,),
+                    const SizedBox(height: 30,),
                     TextField(
                       controller: userPassword,
                       obscureText: true,
@@ -72,7 +72,7 @@ class _MyLoginState extends State<MyLogin> {
                       children: [
                         TextButton(
                             onPressed: (){},
-                            child: Text(
+                            child: const Text(
                               'Forgot Password',
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
@@ -82,11 +82,11 @@ class _MyLoginState extends State<MyLogin> {
                             )),
                       ],
                     ),
-                    SizedBox(height: 40,),
+                    const SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Sign In',
                           style: TextStyle(
                             color: Color(0xff4c505b),
@@ -95,7 +95,7 @@ class _MyLoginState extends State<MyLogin> {
                         ),
                         CircleAvatar(
                           radius: 30,
-                          backgroundColor: Color(0xff4c505b),
+                          backgroundColor: const Color(0xff4c505b),
                           child: IconButton(
                             color: Colors.white,
                             onPressed: (){
@@ -105,22 +105,40 @@ class _MyLoginState extends State<MyLogin> {
                                   password : userPassword.text, )
                                   .then((value) {
                                 print('Sign in with an account.');
-                                // path of User or ServiceProvider
+                            // path of User or ServiceProvider
                                 route();
+                                    // Successfully notification
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          backgroundColor: Colors.green,
+                                          content: Center(
+                                            child: Text("Sign in Successfully"),
+                                          )
+                                      ),
+                                    );
                               }).onError((error, stackTrace){
                                 print("Error ${error.toString()}");
+                                // error Notification
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.red,
+                                      content: Center(
+                                        child: Text("email or password is invalid"),
+                                      )
+                                  ),
+                                );
                               });
                               },
-                            icon:  Icon(Icons.arrow_forward),
+                            icon:  const Icon(Icons.arrow_forward),
                           ),
                         )
                       ],
                     ),
-                    SizedBox(height: 40,),
+                    const SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Don't have an account?",
                           style: TextStyle(
                           fontSize: 15,
@@ -129,7 +147,7 @@ class _MyLoginState extends State<MyLogin> {
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> MyRegister()));
                             },
-                            child: Text(
+                            child: const Text(
                               'Sign Up',
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
@@ -156,25 +174,26 @@ void route() {
       .get()
       .then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
-      if (documentSnapshot.get('rool') == "ServiceProvoder") {
+      if (documentSnapshot.get('rool') == "ServiceProvider") {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>  ServiceProviderScreen(),
+            builder: (context) =>  const ServiceProviderScreen(),
           ),
         );
       }else{
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>  UserScreen(),
+            builder: (context) =>  const UserScreen(),
           ),
         );
       }
     } else {
       print('Document does not exist on the database');
     }
-  });
+  }
+  );
 }
 
 }

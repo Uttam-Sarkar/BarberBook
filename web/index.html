@@ -55,5 +55,18 @@
       });
     });
   </script>
+<!--add by Uttam for requesting location permission-->
+  <script>
+  function requestGeolocationPermission() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        // Location access granted
+      }, function (error) {
+        // Handle permission denied or errors
+      });
+    }
+  }
+</script>
+
 </body>
 </html>

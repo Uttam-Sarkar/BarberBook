@@ -3,7 +3,6 @@ import 'package:barberbook/logout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 class MyRegister extends StatefulWidget {
   const MyRegister({super.key});
 
@@ -105,53 +104,56 @@ class _MyRegisterState extends State<MyRegister> {
                     ),
                 SizedBox(height: 20,),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Resister as a : ",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff4c505b),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Resister as a : ",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff4c505b),
+                        ),
                       ),
-                    ),
 
-                    DropdownButton<String>(
-                      dropdownColor: Colors.blue[200],
-                      isDense: true,
-                      isExpanded: false,
-                      iconEnabledColor: Colors.blue,
-                      focusColor: Colors.transparent,
-                      items: options.map((String dropDownStringItem) {
-                        return DropdownMenuItem<String>(
-                          value: dropDownStringItem,
-                          child: Text(
-                            dropDownStringItem,
-                            style: TextStyle(
-                              color: Color(0xff4c505b),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                      DropdownButton<String>(
+                        dropdownColor: Colors.blue[200],
+                        isDense: true,
+                        isExpanded: false,
+                        iconEnabledColor: Colors.blue,
+                        focusColor: Colors.transparent,
+                        items: options.map((String dropDownStringItem) {
+                          return DropdownMenuItem<String>(
+                            value: dropDownStringItem,
+                            child: Text(
+                              dropDownStringItem,
+                              style: const TextStyle(
+                                color: Color(0xff4c505b),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (newValueSelected) {
-                        setState(() {
-                          _currentItemSelected = newValueSelected!;
-                          rool = newValueSelected;
-                        });
-                      },
-                      value: _currentItemSelected,
-                    ),
-                  ],
+                          );
+                        }).toList(),
+                        onChanged: (newValueSelected) {
+                          setState(() {
+                            _currentItemSelected = newValueSelected!;
+                            rool = newValueSelected;
+                          });
+                        },
+                        value: _currentItemSelected,
+                      ),
+                    ],
+                  ),
                 ),
 
                 SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Sign Up',
                           style: TextStyle(
                               color: Color(0xff4c505b),
@@ -176,10 +178,29 @@ class _MyRegisterState extends State<MyRegister> {
                                     CollectionReference ref = FirebaseFirestore.instance.collection('users');
                                     ref.doc(user!.uid).set({'name': userName.text, 'email': userEmail.text, 'rool': rool});
                                     print('Created new account.');
+                                    // Successfully notification
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          backgroundColor: Colors.green,
+                                          content: Center(
+                                            child: Text("Sign up Successfully"),
+                                          )
+                                      ),
+                                    );
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context)=> MyLogin()));
                               }).onError((error, stackTrace){
-                                print("Error ${error.toString()}");
+                                 print("Error ${error.toString()}");
+                                 // error Notification
+                                 ScaffoldMessenger.of(context).showSnackBar(
+                                   const SnackBar(
+                                       backgroundColor: Colors.red,
+                                       content: Center(
+                                         child: Text("This Email already exist!"),
+                                       )
+                                   ),
+                                 );
+
                               });
                             },
                             icon:  Icon(Icons.arrow_forward),

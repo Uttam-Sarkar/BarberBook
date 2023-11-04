@@ -18,6 +18,8 @@ class SetStoreLocation extends StatefulWidget {
 
 class _SetStoreLocationState extends State<SetStoreLocation> {
   final LocationService locationService = LocationService();
+  final  storeName = TextEditingController();
+
   Position? _currentPosition;
   String _locationMessage = "";
   Future<void> _fetchLocation() async {
@@ -63,6 +65,17 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
           child: Column(
 
             children:[
+              TextField(
+                controller: storeName,
+                decoration: InputDecoration(
+                    fillColor: Colors.grey.shade100,
+                    filled: true,
+                    hintText: 'Store Name',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    )
+                ),
+              ),
               if(_currentPosition != null)
                 Column(
                     children:[
@@ -84,6 +97,7 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
                       final locationDetails = FirebaseFirestore.instance.collection('locationDetails');
                       var user = FirebaseAuth.instance.currentUser;
                       await locationDetails.doc(user!.uid).set({
+                        'name' : storeName.text,
                         'latitude' : _currentPosition!.latitude,
                         'longitude' : _currentPosition!.longitude,
                       });

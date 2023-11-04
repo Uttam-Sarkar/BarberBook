@@ -176,7 +176,10 @@ class _MyRegisterState extends State<MyRegister> {
                                     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
                                     var user = FirebaseAuth.instance.currentUser;
                                     CollectionReference ref = FirebaseFirestore.instance.collection('users');
-                                    ref.doc(user!.uid).set({'name': userName.text, 'email': userEmail.text, 'rool': rool});
+                                    ref.doc(user!.uid).set({
+                                      'name': userName.text,
+                                      'email': userEmail.text,
+                                      'rool': rool});
                                     print('Created new account.');
                                     // Successfully notification
                                     ScaffoldMessenger.of(context).showSnackBar(

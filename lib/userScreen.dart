@@ -54,36 +54,38 @@ class _UserScreenState extends State<UserScreen> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text("User"),
     ),
-        body: Column(
-          children: [
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.red,
-              child: Text("Uttam"),
-            ),
-            Container(
-              height: 500,
-              color: Colors.cyanAccent,
-              child: _nearestShops != null
-              ?ListView.builder(
-                itemCount: _nearestShops?.length,
-                itemBuilder: (context, index) {
-                  final shop = _nearestShops?[index];
-                  return ListTile(
-                    title: Text(shop?['name']),
-                    subtitle: Text(
-                      "Latitude: ${shop?['latitude']} | Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
-                    ),
-                  );
-                },
-              ): Center(
-                child: ElevatedButton(onPressed: (){
-                  _fetchLocation();
-                },child: Text("Nearest Available Shops"),), // Show loading indicator while fetching data
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 50,
+                width: double.infinity,
+                color: Colors.red,
+                child: Text("Uttam"),
               ),
-            ),
-          ],
+              Container(
+                height: 500,
+                color: Colors.cyanAccent,
+                child: _nearestShops != null
+                ?ListView.builder(
+                  itemCount: _nearestShops?.length,
+                  itemBuilder: (context, index) {
+                    final shop = _nearestShops?[index];
+                    return ListTile(
+                      title: Text(shop?['name']),
+                      subtitle: Text(
+                        "Latitude: ${shop?['latitude']} | Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
+                      ),
+                    );
+                  },
+                ): Center(
+                  child: ElevatedButton(onPressed: (){
+                    _fetchLocation();
+                  },child: Text("Nearest Available Shops"),), // Show loading indicator while fetching data
+                ),
+              ),
+            ],
+          ),
         ),
     );
   }

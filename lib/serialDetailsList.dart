@@ -22,7 +22,7 @@ class SerialDetail extends StatelessWidget {
         }
 
         var data = snapshot.data!.data() as Map<String, dynamic>;
-        List<dynamic> array = data['lists'];
+        List<dynamic> array = data['name'];
 
         return ListView.builder(
           itemCount: array.length,

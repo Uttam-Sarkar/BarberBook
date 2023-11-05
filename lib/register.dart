@@ -17,7 +17,7 @@ class _MyRegisterState extends State<MyRegister> {
 
   var options = [
     'User',
-    'ServiceProvoder',
+    'ServiceProvider',
   ];
   var _currentItemSelected = "User";
   var rool = "User";

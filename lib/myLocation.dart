@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:permission_handler/permission_handler.dart';
-// import 'dart:js' as js;
 class MyLocation extends StatefulWidget {
   @override
   _MyLocationState createState() => _MyLocationState();

@@ -2,6 +2,7 @@ import 'package:barberbook/firebase_options.dart';
 import 'package:barberbook/mapNearLocation.dart';
 import 'package:barberbook/myLocation.dart';
 import 'package:barberbook/register.dart';
+import 'package:barberbook/serialDetailsList.dart';
 import 'package:barberbook/serviceProviderScreen.dart';
 import 'package:barberbook/setStoreLocation.dart';
 import 'package:barberbook/userScreen.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: const UserScreen(),
+      home: const ServiceProviderScreen(),
     );
   }
 }
@@ -54,10 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Text('Uttam'),
-
-      ),
+      body: Column(
+        children: [
+          Container(child: Text("Serial"),height: 30,color: Colors.red,),
+          Container(
+            height: 100,
+              color: Colors.brown,
+              child: SerialDetail(documentId: 'WHyvpBl1iDaMp0ve8YpYQDKKsEn1',)
+          ),
+        ],
+      )
     );
   }
 }

@@ -1,5 +1,8 @@
-import 'package:barberbook/getNearestShops.dart';
+import 'package:barberbook/delete/getNearestShops.dart';
+import 'package:barberbook/serialDetailsList.dart';
+import 'package:barberbook/serviceProviderScreen.dart';
 import 'package:barberbook/setStoreLocation.dart';
+import 'package:barberbook/shopInfo4User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,11 +75,22 @@ class _UserScreenState extends State<UserScreen> {
                   itemBuilder: (context, index) {
                     final shop = _nearestShops?[index];
                     return ListTile(
-                      title: Text(shop?['name']),
+                      title: Text(shop!['name']),
                       subtitle: Text(
-                        "Latitude: ${shop?['latitude']} | Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
+                        //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
+                          "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
                       ),
+                      onTap: () {
+                        print(shop!.id);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ShopInfo4User(documentId: shop!.id, shopName: shop!['name'],),
+                          ),
+                        );
+                      },
                     );
+
                   },
                 ): Center(
                   child: ElevatedButton(onPressed: (){

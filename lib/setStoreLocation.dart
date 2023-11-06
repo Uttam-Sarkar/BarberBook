@@ -1,3 +1,4 @@
+import 'package:barberbook/login.dart';
 import 'package:barberbook/serviceProviderScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,9 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'locationPermission.dart';
-import 'package:firebase_core/firebase_core.dart';
-
+import 'package:barberbook/locationPermission.dart';
 
 class SetStoreLocation extends StatefulWidget {
   const SetStoreLocation({super.key});
@@ -112,7 +111,7 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
                         ),
                       );
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context)=> ServiceProviderScreen()));
+                          MaterialPageRoute(builder: (context)=> MyLogin()));
                     }catch (error){
                       print("Error ${error.toString()}");
                       // error Notification

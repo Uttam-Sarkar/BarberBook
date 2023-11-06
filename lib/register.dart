@@ -1,5 +1,6 @@
 import 'package:barberbook/login.dart';
 import 'package:barberbook/logout.dart';
+import 'package:barberbook/setStoreLocation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _MyRegisterState extends State<MyRegister> {
     'ServiceProvider',
   ];
   var _currentItemSelected = "User";
-  var rool = "User";
+  var role = "User";
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +141,7 @@ class _MyRegisterState extends State<MyRegister> {
                         onChanged: (newValueSelected) {
                           setState(() {
                             _currentItemSelected = newValueSelected!;
-                            rool = newValueSelected;
+                            role = newValueSelected;
                           });
                         },
                         value: _currentItemSelected,
@@ -173,13 +174,15 @@ class _MyRegisterState extends State<MyRegister> {
                                   email : userEmail.text,
                                   password : userPassword.text)
                                   .then((value){
+                                User? userr = value.user;
+                                userr?.updateProfile(displayName: userName.text);
                                     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
                                     var user = FirebaseAuth.instance.currentUser;
                                     CollectionReference ref = FirebaseFirestore.instance.collection('users');
                                     ref.doc(user!.uid).set({
                                       'name': userName.text,
                                       'email': userEmail.text,
-                                      'rool': rool});
+                                      'role': role});
                                     print('Created new account.');
                                     // Successfully notification
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -190,8 +193,13 @@ class _MyRegisterState extends State<MyRegister> {
                                           )
                                       ),
                                     );
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context)=> MyLogin()));
+                                    if(role == "User")
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context)=> MyLogin()));
+                                    else
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context)=> SetStoreLocation()));
+
                               }).onError((error, stackTrace){
                                  print("Error ${error.toString()}");
                                  // error Notification

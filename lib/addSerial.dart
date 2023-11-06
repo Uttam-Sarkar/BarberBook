@@ -40,7 +40,7 @@ class PopUp extends StatelessWidget {
                 var collection = FirebaseFirestore.instance.collection('serialList');
                 var doc = collection
                     .doc('${user!.uid}') // <-- Document ID
-                    .set({'name': FieldValue.arrayUnion([inputText])}, SetOptions(merge: true)) // <-- Add data
+                    .set({'name': FieldValue.arrayUnion(["${inputText}"])}, SetOptions(merge: true)) // <-- Add data
                     .then((value) {
                   print('Added');
                   ScaffoldMessenger.of(context).showSnackBar(

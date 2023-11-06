@@ -173,7 +173,7 @@ void route() {
       .get()
       .then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
-      if (documentSnapshot.get('rool') == "ServiceProvider") {
+      if (documentSnapshot.get('role') == "ServiceProvider") {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

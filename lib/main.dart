@@ -1,5 +1,5 @@
 import 'package:barberbook/firebase_options.dart';
-import 'package:barberbook/mapNearLocation.dart';
+import 'package:barberbook/delete/mapNearLocation.dart';
 import 'package:barberbook/myLocation.dart';
 import 'package:barberbook/register.dart';
 import 'package:barberbook/serialDetailsList.dart';
@@ -10,7 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'login.dart';
-import 'nearDocs.dart';
+import 'delete/nearDocs.dart';
 
 
 Future<void> main() async{

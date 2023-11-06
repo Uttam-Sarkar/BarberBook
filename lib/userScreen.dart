@@ -68,27 +68,38 @@ class _UserScreenState extends State<UserScreen> {
               ),
               Container(
                 height: 500,
-                color: Colors.cyanAccent,
+                color: Colors.cyanAccent.shade100,
                 child: _nearestShops != null
                 ?ListView.builder(
+
                   itemCount: _nearestShops?.length,
                   itemBuilder: (context, index) {
                     final shop = _nearestShops?[index];
-                    return ListTile(
-                      title: Text(shop!['name']),
-                      subtitle: Text(
-                        //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
-                          "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
-                      ),
-                      onTap: () {
-                        print(shop!.id);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ShopInfo4User(documentId: shop!.id, shopName: shop!['name'],),
+                    return Container(
+                      // decoration: BoxDecoration(
+                      //   borderRadius: BorderRadius.circular(20),
+                      //   color: Colors.indigo.shade200,
+                      //   border: Border.all(width: 20)
+                      // ),
+                      child: Card(
+                        child: ListTile(
+                          title: Text(shop!['name']),
+                          subtitle: Text(
+                            //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
+                              "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
                           ),
-                        );
-                      },
+                          trailing: Icon(Icons.arrow_forward),
+                          onTap: () {
+                            print(shop!.id);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ShopInfo4User(documentId: shop!.id, shopName: shop!['name'],),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     );
 
                   },

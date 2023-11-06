@@ -27,8 +27,29 @@ class SerialDetail extends StatelessWidget {
         return ListView.builder(
           itemCount: array.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(array[index].toString()),
+            final TextStyle titleTextStyle = index.isEven
+                ? TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.brown)
+                : TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black);
+            return Container(
+              // decoration: BoxDecoration(
+              //   //borderRadius: BorderRadius.circular(20),
+              //   //color: Colors.white,
+              // ),
+              child: Card(
+                child: ListTile(
+                  title: Text(
+                    array[index].toString(),
+                      style:titleTextStyle,
+                  ),
+                  // tileColor: Colors.greenAccent,
+                  // shape: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.circular(20),
+                  // ),
+                  contentPadding: EdgeInsets.all(5),
+                  titleTextStyle: titleTextStyle,
+
+                ),
+              ),
             );
           },
         );

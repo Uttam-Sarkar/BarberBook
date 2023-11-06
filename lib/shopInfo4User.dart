@@ -35,9 +35,9 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
         child: Column(
           children: [
             Container(
-              height: 200,
+              height: 500,
               width: double.infinity,
-              color: Colors.red,
+              color: Colors.greenAccent,
               child: widget.documentId!.isNotEmpty ?
               SerialDetail(documentId: widget.documentId,) // access received documetId
                   : Center(

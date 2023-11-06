@@ -31,9 +31,10 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                 child: Text("OPTION")),
             SizedBox(height: 10,),
             Container(
-              height: 200,
+              height: 500,
               width: double.infinity,
-              color: Colors.red,
+              color: Colors.grey.shade400,
+              padding: EdgeInsets.all(10),
               child: user!.uid.isNotEmpty ?
               SerialDetail(documentId: '${user?.uid}',)
               : Center(

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:barberbook/delete/getNearestShops.dart';
 import 'package:barberbook/serialDetailsList.dart';
 import 'package:barberbook/serviceProviderScreen.dart';
@@ -50,6 +52,9 @@ class _UserScreenState extends State<UserScreen> {
     super.initState();
     _fetchLocation();
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +65,7 @@ class _UserScreenState extends State<UserScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+
               Container(
                 height: 50,
                 width: double.infinity,

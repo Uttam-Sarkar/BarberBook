@@ -1,5 +1,4 @@
 import 'package:barberbook/login.dart';
-import 'package:barberbook/logout.dart';
 import 'package:barberbook/setStoreLocation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

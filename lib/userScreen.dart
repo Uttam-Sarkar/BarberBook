@@ -1,14 +1,9 @@
-import 'dart:js_util';
-
-import 'package:barberbook/delete/getNearestShops.dart';
-import 'package:barberbook/serialDetailsList.dart';
-import 'package:barberbook/serviceProviderScreen.dart';
-import 'package:barberbook/setStoreLocation.dart';
 import 'package:barberbook/shopInfo4User.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'getSerialList.dart';
 import 'locationPermission.dart';
 
 class UserScreen extends StatefulWidget {

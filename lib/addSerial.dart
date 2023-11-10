@@ -51,7 +51,7 @@ int increase(int num) {
             TextButton(
               child: Text('OK'),
               onPressed: () async {
-                int _count = 0;
+                int _count = 1;
                 print(_count.toString());
                 var user = FirebaseAuth.instance.currentUser;
                 // Handle the input data here (e.g., add to Firestore)
@@ -62,7 +62,10 @@ int increase(int num) {
                     _count = documentSnapshot.data()?['num'];
                     print("Total1: $_count");
                   } else {
-                    print("Document not found or age field is missing.");
+                    collection.doc(user!.uid).set({
+                        'num' : increase(_count),
+                      } );
+                  //  print("Document not found or age field is missing.");
                   }
                 }).then((value){
                   print("Tota2: $_count");

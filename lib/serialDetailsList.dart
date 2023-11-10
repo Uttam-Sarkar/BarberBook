@@ -24,6 +24,10 @@ class SerialDetail extends StatelessWidget {
         var data = snapshot.data!.data() as Map<String, dynamic>;
         List<dynamic> array = data['name'];
 
+        if (array.isEmpty) {
+          return Text('No data available');
+        }
+
         return ListView.builder(
           itemCount: array.length,
           itemBuilder: (context, index) {

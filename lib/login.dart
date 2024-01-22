@@ -1,9 +1,11 @@
+import 'package:barberbook/main.dart';
 import 'package:barberbook/register.dart';
 import 'package:barberbook/serviceProviderScreen.dart';
 import 'package:barberbook/userScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLogin extends StatefulWidget {
   const MyLogin({super.key});
@@ -162,7 +164,11 @@ class _MyLoginState extends State<MyLogin> {
       ),
     );
   }
-void route() {
+void route() async{
+    var sharePref = await SharedPreferences.getInstance();
+
+    sharePref.setBool(SplashPageState.KEYLOGIN, true);
+
   User? user = FirebaseAuth.instance.currentUser;
   var kk = FirebaseFirestore.instance
       .collection('users')
@@ -171,15 +177,17 @@ void route() {
       .then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
       if (documentSnapshot.get('role') == "ServiceProvider") {
-        Navigator.pushReplacement(
-          context,
+        //set role
+        sharePref.setString(SplashPageState.ROLE, "ServiceProvider");
+        Navigator.pushReplacement(context,
           MaterialPageRoute(
             builder: (context) =>  const ServiceProviderScreen(),
           ),
         );
       }else{
-        Navigator.pushReplacement(
-          context,
+        //set role
+        sharePref.setString(SplashPageState.ROLE, "User");
+        Navigator.pushReplacement(context,
           MaterialPageRoute(
             builder: (context) =>  const UserScreen(),
           ),

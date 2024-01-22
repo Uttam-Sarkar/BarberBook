@@ -26,6 +26,7 @@ int increase(int num) {
                 _showInputPopup(context);
               },
               child:Icon(Icons.add),
+
             )
           ),
         ],

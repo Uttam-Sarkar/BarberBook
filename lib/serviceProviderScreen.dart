@@ -2,7 +2,6 @@ import 'package:barberbook/serialDetailsList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'addSerial.dart';
 
 class ServiceProviderScreen extends StatefulWidget {
@@ -18,8 +17,27 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ServiceProvider"),
+        title: Text("Shop Name"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu_outlined),
+            onPressed: (){}
+          ),
+        ],
+        leading: CircleAvatar(
+          backgroundColor: Colors.black45,
+        ),
+        backgroundColor: Colors.orange,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10)
+          )
+        ),
       ),
+
+
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -8,8 +8,17 @@ class SerialDetail extends StatelessWidget {
   SerialDetail({required this.documentId});
   //const SerialDetail({super.key, required this.documentId});
 
+
+
   @override
   Widget build(BuildContext context) {
+    var role;
+    // finding the role of the users
+    FirebaseFirestore.instance.collection('users').doc(documentId).get()
+    .then((DocumentSnapshot documentSnapshot){
+      role = documentSnapshot['role'];
+    });
+
     return StreamBuilder(
         stream: FirebaseFirestore.instance.collection('serialList').doc(documentId).snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -49,8 +58,26 @@ class SerialDetail extends StatelessWidget {
                   // shape: RoundedRectangleBorder(
                   //   borderRadius: BorderRadius.circular(20),
                   // ),
+
                   contentPadding: EdgeInsets.all(5),
                   titleTextStyle: titleTextStyle,
+                trailing: role == "ServiceProvider"?
+                    ElevatedButton.icon(
+                      onPressed: (){
+                        var val = [];
+                        val.add(array[index].toString());
+                        final collection = FirebaseFirestore.instance.collection('serialList');
+                        collection.doc(documentId)
+                        .update({
+                          'name' : FieldValue.arrayRemove(val),
+                        });
+                      },
+                      icon: Icon(Icons.done), label: Text("Done"))
+                      : FilledButton.icon(
+                          onPressed:(){},
+                          icon: Icon(Icons.timer),
+                          label: Text(""),
+                ),
 
                 ),
               ),
@@ -59,6 +86,11 @@ class SerialDetail extends StatelessWidget {
         );
       },
     );
+  }
+  void dj(){
+    var listCollection = FirebaseFirestore.instance.collection('serialList');
+
+
   }
 }
 

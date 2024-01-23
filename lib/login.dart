@@ -177,7 +177,7 @@ void route() async{
       .then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
       if (documentSnapshot.get('role') == "ServiceProvider") {
-        //set role
+        //set role : for this we come to here otherwise it can be call main.dart
         sharePref.setString(SplashPageState.ROLE, "ServiceProvider");
         Navigator.pushReplacement(context,
           MaterialPageRoute(

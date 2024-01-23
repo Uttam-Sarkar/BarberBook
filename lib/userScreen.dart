@@ -54,9 +54,25 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text("User"),
-    ),
+          title: Text("Shop Name"),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.menu_outlined),
+                onPressed: (){}
+            ),
+          ],
+          leading: CircleAvatar(
+            backgroundColor: Colors.black45,
+          ),
+          backgroundColor: Colors.orange,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)
+              )
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [

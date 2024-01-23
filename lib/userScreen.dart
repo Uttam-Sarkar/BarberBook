@@ -1,4 +1,5 @@
 import 'package:barberbook/shopInfo4User.dart';
+import 'package:barberbook/userSettings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,12 +55,15 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Shop Name"),
-          centerTitle: true,
+          title: Text("User Name"),
+          centerTitle: false,
           actions: [
             IconButton(
                 icon: const Icon(Icons.menu_outlined),
-                onPressed: (){}
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserSettings()));
+                }
             ),
           ],
           leading: CircleAvatar(
@@ -108,8 +112,7 @@ class _UserScreenState extends State<UserScreen> {
                           trailing: Icon(Icons.arrow_forward),
                           onTap: () {
                             print(shop!.id);
-                            Navigator.push(
-                              context,
+                            Navigator.push(context,
                               MaterialPageRoute(
                                 builder: (context) => ShopInfo4User(documentId: shop!.id, shopName: shop!['name'],),
                               ),

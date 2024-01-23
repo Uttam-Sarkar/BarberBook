@@ -45,14 +45,14 @@ class SplashPage extends StatefulWidget {
 class SplashPageState extends State<SplashPage> {
   static const String KEYLOGIN = "login";
   static const String ROLE = "role";
+  static const String USERNAME = "name";
+  static const String EMAIL = "email";
+  static const String PHONE = "phone";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // Timer(Duration(seconds: 5), () {
-    //   Navigator.pushReplacement(context,
-    //   MaterialPageRoute(builder: (context) => MyLogin()));
-    // });
     whereToGo();
   }
 
@@ -61,7 +61,9 @@ class SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: Container(
         color: Colors.blue,
-        child:Icon(Icons.account_circle, color: Colors.white,),
+        child:Center(
+            child: Icon(Icons.account_circle, color: Colors.white,),
+        ),
       ),
     );
   }

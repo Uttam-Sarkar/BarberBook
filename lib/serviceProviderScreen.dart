@@ -1,6 +1,6 @@
 import 'package:barberbook/serialDetailsList.dart';
+import 'package:barberbook/serviceProviderSettings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'addSerial.dart';
 
@@ -22,7 +22,10 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.menu_outlined),
-            onPressed: (){}
+            onPressed: (){
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => ServiceProviderSettings()));
+            }
           ),
         ],
         leading: CircleAvatar(

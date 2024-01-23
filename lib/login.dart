@@ -166,6 +166,9 @@ class _MyLoginState extends State<MyLogin> {
   }
 void route() async{
     var sharePref = await SharedPreferences.getInstance();
+    String name = "User";
+    String Phone = "";
+    String Email ="";
 
     sharePref.setBool(SplashPageState.KEYLOGIN, true);
 
@@ -179,6 +182,19 @@ void route() async{
       if (documentSnapshot.get('role') == "ServiceProvider") {
         //set role : for this we come to here otherwise it can be call main.dart
         sharePref.setString(SplashPageState.ROLE, "ServiceProvider");
+        if(documentSnapshot.get('name') != null) {
+          name = documentSnapshot.get('name');
+        }
+        if(documentSnapshot.get('Phone') != null) {
+          name = documentSnapshot.get('name');
+        }
+        if(documentSnapshot.get('Email') != null) {
+          name = documentSnapshot.get('name');
+        }
+        sharePref.setString("userName", name);
+        sharePref.setString("Phone", Phone);
+        sharePref.setString("Emaill", Email);
+
         Navigator.pushReplacement(context,
           MaterialPageRoute(
             builder: (context) =>  const ServiceProviderScreen(),

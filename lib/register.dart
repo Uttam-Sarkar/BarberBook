@@ -184,6 +184,7 @@ class _MyRegisterState extends State<MyRegister> {
                                       'phone' : userPhone,
                                       'email': userEmail.text,
                                       'role': role,
+                                      'storeName' : "",
                                     });
                                     print('Created new account.');
                                     // Successfully notification

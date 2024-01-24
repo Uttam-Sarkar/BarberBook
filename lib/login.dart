@@ -167,6 +167,7 @@ class _MyLoginState extends State<MyLogin> {
 void route() async{
     var sharePref = await SharedPreferences.getInstance();
     String name = "User";
+    String storeName = "Store";
     String phone = "";
     String email ="";
 
@@ -184,16 +185,21 @@ void route() async{
         //set role : for this we come to here otherwise it can be call main.dart
         print("33333333333");
         sharePref.setString(SplashPageState.ROLE, "ServiceProvider");
-        if(documentSnapshot.get('name') != null) {
-          name = documentSnapshot.get('name');
+
+        if(documentSnapshot.get(SplashPageState.USERNAME) != null) {
+          name = documentSnapshot.get(SplashPageState.USERNAME);
         }
-        if(documentSnapshot.get('phone') != null) {
-          name = documentSnapshot.get('phone');
+        if(documentSnapshot.get(SplashPageState.PHONE) != null) {
+          phone = documentSnapshot.get(SplashPageState.PHONE);
         }
-        if(documentSnapshot.get('email') != null) {
-          name = documentSnapshot.get('email');
+        if(documentSnapshot.get(SplashPageState.EMAIL) != null) {
+          email = documentSnapshot.get(SplashPageState.EMAIL);
+        }
+        if(documentSnapshot.get(SplashPageState.STORENAME) != null) {
+          storeName = documentSnapshot.get(SplashPageState.STORENAME);
         }
         sharePref.setString(SplashPageState.USERNAME, name);
+        sharePref.setString(SplashPageState.STORENAME, storeName);
         sharePref.setString(SplashPageState.PHONE, phone);
         sharePref.setString(SplashPageState.EMAIL, email);
 
@@ -205,14 +211,14 @@ void route() async{
       }else{
         //set role
         sharePref.setString(SplashPageState.ROLE, "User");
-        if(documentSnapshot.get('name') != null) {
-          name = documentSnapshot.get('name');
+        if(documentSnapshot.get(SplashPageState.USERNAME) != null) {
+          name = documentSnapshot.get(SplashPageState.USERNAME);
         }
-        if(documentSnapshot.get('phone') != null) {
-          name = documentSnapshot.get('phone');
+        if(documentSnapshot.get(SplashPageState.PHONE) != null) {
+          phone = documentSnapshot.get(SplashPageState.PHONE);
         }
-        if(documentSnapshot.get('email') != null) {
-          name = documentSnapshot.get('email');
+        if(documentSnapshot.get(SplashPageState.EMAIL) != null) {
+          email = documentSnapshot.get(SplashPageState.EMAIL);
         }
         sharePref.setString(SplashPageState.USERNAME, name);
         sharePref.setString(SplashPageState.PHONE, phone);

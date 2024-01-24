@@ -53,7 +53,7 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Set Store Location"),
+        title: const Text("Set Name & Store Location"),
       ),
       body: Center(
         child: Container(
@@ -103,11 +103,15 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
                   onPressed: () async {
                     try{
                       final locationDetails = FirebaseFirestore.instance.collection('locationDetails');
+                      final users = FirebaseFirestore.instance.collection('users');
                       var user = FirebaseAuth.instance.currentUser;
                       await locationDetails.doc(user!.uid).set({
-                        'name' : storeName.text,
+                      //  'name' : storeName.text,
                         'latitude' : _currentPosition!.latitude,
                         'longitude' : _currentPosition!.longitude,
+                      });
+                      await users.doc(user!.uid).update({
+                        'storeName' : storeName.text,
                       });
                       // Successfully notification
                       ScaffoldMessenger.of(context).showSnackBar(

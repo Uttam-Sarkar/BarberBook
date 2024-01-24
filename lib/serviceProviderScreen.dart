@@ -2,7 +2,9 @@ import 'package:barberbook/serialDetailsList.dart';
 import 'package:barberbook/serviceProviderSettings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'addSerial.dart';
+import 'main.dart';
 
 class ServiceProviderScreen extends StatefulWidget {
   const ServiceProviderScreen({super.key});
@@ -12,12 +14,21 @@ class ServiceProviderScreen extends StatefulWidget {
 }
 
 class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
+  // for app Bar
+  String appBar = '';
   var user = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchFromLocalStorage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Shop Name"),
+        title: Text(appBar),
         centerTitle: true,
         actions: [
           IconButton(
@@ -71,5 +82,14 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
         ),
       ),
     );
+  }
+
+  void _fetchFromLocalStorage() async {
+    var sharePref = await SharedPreferences.getInstance();
+    var storeName = sharePref.getString(SplashPageState.STORENAME);
+    setState (() {
+      appBar = storeName!;
+
+    });
   }
 }

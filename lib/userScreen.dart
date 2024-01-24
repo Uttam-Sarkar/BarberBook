@@ -1,9 +1,11 @@
+import 'package:barberbook/main.dart';
 import 'package:barberbook/shopInfo4User.dart';
 import 'package:barberbook/userSettings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'getSerialList.dart';
 import 'locationPermission.dart';
 
@@ -15,6 +17,8 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  // for appBar
+  String appBar = '';
   final LocationService locationService = LocationService();
   Position? _currentPosition;
   List<DocumentSnapshot>? _nearestShops ;
@@ -47,6 +51,7 @@ class _UserScreenState extends State<UserScreen> {
   void initState() {
     super.initState();
     _fetchLocation();
+    _fetchFromLocalStorage();
   }
 
 
@@ -55,7 +60,7 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("User Name"),
+          title: Text(appBar),
           centerTitle: false,
           actions: [
             IconButton(
@@ -133,5 +138,14 @@ class _UserScreenState extends State<UserScreen> {
           ),
         ),
     );
+  }
+
+  void _fetchFromLocalStorage() async {
+    var sharePref = await SharedPreferences.getInstance();
+    var userName = sharePref.getString(SplashPageState.USERNAME);
+    setState (() {
+      appBar = userName!;
+
+    });
   }
 }

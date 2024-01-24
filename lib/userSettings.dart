@@ -131,9 +131,9 @@ class _UserSettingsState extends State<UserSettings> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
 
-        userName = documentSnapshot.get('name');
-        phone = documentSnapshot.get('phone');
-        email = documentSnapshot.get('email');
+        userName = documentSnapshot.get(SplashPageState.USERNAME);
+        phone = documentSnapshot.get(SplashPageState.PHONE);
+        email = documentSnapshot.get(SplashPageState.EMAIL);
 
         }});
     setState(() {
@@ -204,9 +204,9 @@ class _UserSettingsState extends State<UserSettings> {
                 var user = FirebaseAuth.instance.currentUser;
                 CollectionReference ref = FirebaseFirestore.instance.collection('users');
                 ref.doc(user!.uid).update({
-                  'name': userName,
-                  'phone': phone,
-                  'email': email,
+                  SplashPageState.USERNAME : userName,
+                  SplashPageState.PHONE: phone,
+                  SplashPageState.EMAIL: email,
                  });
                 setState(() {
 

@@ -18,12 +18,14 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    AllInfoFetch();
+    _fetchFromLocalStorage();
   }
 
   String userName = "Service Provider";
   String phone = "Null";
   String email = "Null";
+  String storeName = "Store";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +35,15 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
         body: Center(
           child: Column(
             children: [
+              const SizedBox(height: 20,),
+              Text(
+                "Store Name : $storeName",
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 20,),
               Text(
                 "Name : $userName",
                 style: const TextStyle(
@@ -120,7 +131,7 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
         ));
   }
 
-  Future<void> AllInfoFetch() async {
+  Future<void> _fetchFromLocalStorage() async {
     //var sharePref = await SharedPreferences.getInstance();
 
     User? user = FirebaseAuth.instance.currentUser;
@@ -131,12 +142,14 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
 
-        userName = documentSnapshot.get('name');
-        phone = documentSnapshot.get('phone');
-        email = documentSnapshot.get('email');
+        userName = documentSnapshot.get(SplashPageState.USERNAME);
+        storeName = documentSnapshot.get(SplashPageState.STORENAME);
+        phone = documentSnapshot.get(SplashPageState.PHONE);
+        email = documentSnapshot.get(SplashPageState.EMAIL);
 
       }});
     setState(() {
+
 
     });
   }
@@ -160,6 +173,14 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
             child: Form(
               child: Column(
                 children: [
+                  TextFormField(
+                    obscureText: false,
+                    initialValue: storeName,
+                    decoration: const InputDecoration(labelText: "Store Name",icon: Icon(Icons.storefront)),
+                    onChanged: (text){
+                      storeName = text;
+                    },
+                  ),
                   TextFormField(
                     obscureText: false,
                     initialValue: userName,
@@ -194,9 +215,10 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
 
           actions: <Widget>[
             TextButton(
-              child: Text('Save'),
+              child: const Text('Save'),
               onPressed: () async {
                 var sharePref = await SharedPreferences.getInstance();
+                sharePref.setString(SplashPageState.STORENAME, storeName );
                 sharePref.setString(SplashPageState.USERNAME, userName );
                 sharePref.setString(SplashPageState.PHONE, phone );
                 // sharePref.setString(SplashPageState.EMAIL, email );
@@ -204,9 +226,10 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
                 var user = FirebaseAuth.instance.currentUser;
                 CollectionReference ref = FirebaseFirestore.instance.collection('users');
                 ref.doc(user!.uid).update({
-                  'name': userName,
-                  'phone': phone,
-                  'email': email,
+                  SplashPageState.USERNAME : userName,
+                  SplashPageState.PHONE: phone,
+                  SplashPageState.EMAIL: email,
+                  SplashPageState.STORENAME : storeName,
                 });
                 setState(() {
 
@@ -215,7 +238,7 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
               },
             ),
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

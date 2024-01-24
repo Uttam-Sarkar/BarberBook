@@ -14,6 +14,7 @@ class _MyRegisterState extends State<MyRegister> {
   final  userEmail = TextEditingController();
   final  userPassword = TextEditingController();
   final userName = TextEditingController();
+  final userPhone = "";//TextEditingController();
 
   var options = [
     'User',
@@ -180,8 +181,10 @@ class _MyRegisterState extends State<MyRegister> {
                                     CollectionReference ref = FirebaseFirestore.instance.collection('users');
                                     ref.doc(user!.uid).set({
                                       'name': userName.text,
+                                      'phone' : userPhone,
                                       'email': userEmail.text,
-                                      'role': role});
+                                      'role': role,
+                                    });
                                     print('Created new account.');
                                     // Successfully notification
                                     ScaffoldMessenger.of(context).showSnackBar(

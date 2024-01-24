@@ -143,7 +143,7 @@ class _MyLoginState extends State<MyLogin> {
                           color: Color(0xff4c505b),),),
                         TextButton(
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MyRegister()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const MyRegister()));
                             },
                             child: const Text(
                               'Sign Up',
@@ -167,11 +167,10 @@ class _MyLoginState extends State<MyLogin> {
 void route() async{
     var sharePref = await SharedPreferences.getInstance();
     String name = "User";
-    String Phone = "";
-    String Email ="";
+    String phone = "";
+    String email ="";
 
     sharePref.setBool(SplashPageState.KEYLOGIN, true);
-
   User? user = FirebaseAuth.instance.currentUser;
   var kk = FirebaseFirestore.instance
       .collection('users')
@@ -179,21 +178,24 @@ void route() async{
       .get()
       .then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
-      if (documentSnapshot.get('role') == "ServiceProvider") {
+      print(documentSnapshot.get("role"));
+      print(documentSnapshot);
+      if ( documentSnapshot.get('role') == "ServiceProvider") {
         //set role : for this we come to here otherwise it can be call main.dart
+        print("33333333333");
         sharePref.setString(SplashPageState.ROLE, "ServiceProvider");
         if(documentSnapshot.get('name') != null) {
           name = documentSnapshot.get('name');
         }
-        if(documentSnapshot.get('Phone') != null) {
-          name = documentSnapshot.get('name');
+        if(documentSnapshot.get('phone') != null) {
+          name = documentSnapshot.get('phone');
         }
-        if(documentSnapshot.get('Email') != null) {
-          name = documentSnapshot.get('name');
+        if(documentSnapshot.get('email') != null) {
+          name = documentSnapshot.get('email');
         }
-        sharePref.setString("userName", name);
-        sharePref.setString("Phone", Phone);
-        sharePref.setString("Emaill", Email);
+        sharePref.setString(SplashPageState.USERNAME, name);
+        sharePref.setString(SplashPageState.PHONE, phone);
+        sharePref.setString(SplashPageState.EMAIL, email);
 
         Navigator.pushReplacement(context,
           MaterialPageRoute(
@@ -203,6 +205,18 @@ void route() async{
       }else{
         //set role
         sharePref.setString(SplashPageState.ROLE, "User");
+        if(documentSnapshot.get('name') != null) {
+          name = documentSnapshot.get('name');
+        }
+        if(documentSnapshot.get('phone') != null) {
+          name = documentSnapshot.get('phone');
+        }
+        if(documentSnapshot.get('email') != null) {
+          name = documentSnapshot.get('email');
+        }
+        sharePref.setString(SplashPageState.USERNAME, name);
+        sharePref.setString(SplashPageState.PHONE, phone);
+        sharePref.setString(SplashPageState.EMAIL, email);
         Navigator.pushReplacement(context,
           MaterialPageRoute(
             builder: (context) =>  const UserScreen(),

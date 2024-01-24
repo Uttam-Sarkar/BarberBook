@@ -1,26 +1,42 @@
+import 'package:barberbook/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SerialDetail extends StatelessWidget {
+class SerialDetail extends StatefulWidget {
   final String documentId; // Accept the document ID as a parameter
 
   SerialDetail({required this.documentId});
-  //const SerialDetail({super.key, required this.documentId});
-
-
 
   @override
+  State<SerialDetail> createState() => _SerialDetailState();
+}
+
+
+class _SerialDetailState extends State<SerialDetail> {
+  var role;
+
+  //const SerialDetail({super.key, required this.documentId});
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AllInfoFetch();
+  }
+  @override
   Widget build(BuildContext context) {
-    var role;
+
     // finding the role of the users
-    FirebaseFirestore.instance.collection('users').doc(documentId).get()
-    .then((DocumentSnapshot documentSnapshot){
-      role = documentSnapshot['role'];
-    });
+    // var role = SplashPageState.Role;
+    // role = sharePref.getString(SplashPageState.USERNAME)
+    // FirebaseFirestore.instance.collection('users').doc(widget.documentId).get()
+    // .then((DocumentSnapshot documentSnapshot){
+    //   role = documentSnapshot['role'];
+    // });
 
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('serialList').doc(documentId).snapshots(),
+        stream: FirebaseFirestore.instance.collection('serialList').doc(widget.documentId).snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
@@ -50,6 +66,7 @@ class SerialDetail extends StatelessWidget {
               // ),
               child: Card(
                 child: ListTile(
+                 // leading: index.toInt();
                   title: Text(
                     array[index].toString(),
                       style:titleTextStyle,
@@ -67,16 +84,16 @@ class SerialDetail extends StatelessWidget {
                         var val = [];
                         val.add(array[index].toString());
                         final collection = FirebaseFirestore.instance.collection('serialList');
-                        collection.doc(documentId)
+                        collection.doc(widget.documentId)
                         .update({
                           'name' : FieldValue.arrayRemove(val),
                         });
                       },
-                      icon: Icon(Icons.done), label: Text("Done"))
+                      icon: const Icon(Icons.done), label: const Text("Done"))
                       : FilledButton.icon(
                           onPressed:(){},
-                          icon: Icon(Icons.timer),
-                          label: Text(""),
+                          icon: const Icon(Icons.timer),
+                          label: const Text(""),
                 ),
 
                 ),
@@ -87,10 +104,17 @@ class SerialDetail extends StatelessWidget {
       },
     );
   }
+
   void dj(){
     var listCollection = FirebaseFirestore.instance.collection('serialList');
 
 
+  }
+
+  Future<void> AllInfoFetch() async {
+    //finding the role of the users
+    var sharePref = await SharedPreferences.getInstance();
+    role = sharePref.getString(SplashPageState.ROLE);
   }
 }
 

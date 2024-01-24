@@ -1,5 +1,4 @@
 import 'package:barberbook/login.dart';
-import 'package:barberbook/serviceProviderScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,8 +77,18 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
               if(_currentPosition != null)
                 Column(
                     children:[
-                      Text("Your Location Name",style: TextStyle(color: Colors.blue, fontSize: 35),),
-                      Text(_locationMessage, style: TextStyle(color: Colors.redAccent, fontSize: 20),),
+                      SizedBox(height: 50,),
+                      Container(
+                        decoration: BoxDecoration(color: Colors.cyan,shape: BoxShape.rectangle,borderRadius: BorderRadius.circular(15)),
+                          padding: EdgeInsetsDirectional.all(15),
+                          child: Text("Your Current Location",
+                            style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),)),
+                      SizedBox(height: 3,),
+                      Container(
+                          decoration:BoxDecoration(color: Colors.black12,shape: BoxShape.rectangle, borderRadius: BorderRadius.circular(15)),
+                          padding: EdgeInsetsDirectional.all(20),
+                          child: Text(_locationMessage,
+                            style: TextStyle(color: Colors.black87, fontSize: 20, fontWeight:FontWeight.w500 ),)),
                     ]
                 ),
               // Text("data"),
@@ -89,7 +98,7 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
               //   onPressed: _fetchLocation,
               //   child: Text("Get Location"),
               // ),
-              SizedBox(height: 40,),
+              SizedBox(height: 30,),
               ElevatedButton(
                   onPressed: () async {
                     try{
@@ -100,7 +109,6 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
                         'latitude' : _currentPosition!.latitude,
                         'longitude' : _currentPosition!.longitude,
                       });
-                      print('Created new account.');
                       // Successfully notification
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -127,7 +135,7 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
                     }
 
                   },
-                  child: Text("Set as Store Location")),
+                  child: const Text("Save",style: TextStyle(color: Colors.green, fontSize: 25, fontWeight: FontWeight.w600))),
             ],
           ),
         ),

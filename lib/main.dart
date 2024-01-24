@@ -48,6 +48,7 @@ class SplashPageState extends State<SplashPage> {
   static const String USERNAME = "name";
   static const String EMAIL = "email";
   static const String PHONE = "phone";
+  static String Role = "";
 
   @override
   void initState() {
@@ -73,6 +74,7 @@ class SplashPageState extends State<SplashPage> {
 
     var isLoggedIn = sharePref.getBool(KEYLOGIN);
     var role = sharePref.getString(ROLE);
+    Role = role!;
 
     Timer(Duration(seconds: 2),() {
         if (isLoggedIn != null && role != null ) {

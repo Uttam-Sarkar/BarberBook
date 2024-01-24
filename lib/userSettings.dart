@@ -1,3 +1,4 @@
+import 'package:barberbook/login.dart';
 import 'package:barberbook/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +28,7 @@ class _UserSettingsState extends State<UserSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("dj"),
+          title: const Text("User Settings"),
         ),
         body: Center(
           child: Column(
@@ -87,8 +88,29 @@ class _UserSettingsState extends State<UserSettings> {
               const SizedBox(
                 height: 100,
               ),
+
+    //           FirebaseAuth.instance.signOut().then((value){
+    // print('Log out.');
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => MyLogin()));
+    //
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    var sharePref = await SharedPreferences.getInstance();
+                    sharePref.setBool(SplashPageState.KEYLOGIN, false );
+                    FirebaseAuth.instance.signOut().then((value) {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => const MyLogin()));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Center(
+                              child: Text("Logged out Successfully"),
+                            )
+                        ),
+                      );
+
+                    });
+                  },
                   child: const Text(
                     "Log Out",
                     style: TextStyle(fontSize: 25, color: Colors.redAccent),
@@ -181,7 +203,7 @@ class _UserSettingsState extends State<UserSettings> {
 
                 var user = FirebaseAuth.instance.currentUser;
                 CollectionReference ref = FirebaseFirestore.instance.collection('users');
-                ref.doc(user!.uid).set({
+                ref.doc(user!.uid).update({
                   'name': userName,
                   'phone': phone,
                   'email': email,

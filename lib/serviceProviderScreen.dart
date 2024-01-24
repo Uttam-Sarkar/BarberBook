@@ -23,8 +23,8 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
           IconButton(
             icon: const Icon(Icons.menu_outlined),
             onPressed: (){
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ServiceProviderSettings()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ServiceProviderSettings()));
             }
           ),
         ],

@@ -55,18 +55,18 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("User Name"),
+          title: const Text("User Name"),
           centerTitle: false,
           actions: [
             IconButton(
                 icon: const Icon(Icons.menu_outlined),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserSettings()));
+                      MaterialPageRoute(builder: (context) => const UserSettings()));
                 }
             ),
           ],
-          leading: CircleAvatar(
+          leading: const CircleAvatar(
             backgroundColor: Colors.black45,
           ),
           backgroundColor: Colors.orange,
@@ -126,7 +126,7 @@ class _UserScreenState extends State<UserScreen> {
                 ): Center(
                   child: ElevatedButton(onPressed: (){
                     _fetchLocation();
-                  },child: Text("Nearest Available Shops"),), // Show loading indicator while fetching data
+                  },child: const Text("Nearest Available Shops"),), // Show loading indicator while fetching data
                 ),
               ),
             ],

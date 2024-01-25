@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'getSerialList.dart';
+import 'getNearestShops.dart';
 import 'locationPermission.dart';
 
 class UserScreen extends StatefulWidget {
@@ -75,13 +75,6 @@ class _UserScreenState extends State<UserScreen> {
             child: Icon(Icons.person),
             backgroundColor: Colors.black45,
           ),
-          // backgroundColor: Colors.orange,
-          // shape: const RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.only(
-          //         bottomLeft: Radius.circular(10),
-          //         bottomRight: Radius.circular(10)
-          //     )
-          // ),
         ),
         body: SingleChildScrollView(
           child: Column(

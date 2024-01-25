@@ -60,6 +60,10 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: const CircleAvatar(
+            child: Icon(Icons.person),
+            backgroundColor: Colors.black45,
+          ),
           title: Text(appBar),
           centerTitle: false,
           actions: [
@@ -71,61 +75,72 @@ class _UserScreenState extends State<UserScreen> {
                 }
             ),
           ],
-          leading: const CircleAvatar(
-            child: Icon(Icons.person),
-            backgroundColor: Colors.black45,
-          ),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-
+              SizedBox(height: 30,),
               Container(
                 height: 50,
                 width: double.infinity,
                 color: Colors.red,
                 child: Text("Uttam"),
               ),
-              Container(
-                height: 500,
-                color: Colors.cyanAccent.shade100,
-                child: _nearestShops != null
-                ?ListView.builder(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.all(10.0),
+                  height: 500,
+                  width: double.infinity,
+                  //color: Colors.cyanAccent.shade100,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade400,
+                    borderRadius: BorderRadius.circular(20),
 
-                  itemCount: _nearestShops?.length,
-                  itemBuilder: (context, index) {
-                    final shop = _nearestShops?[index];
-                    return Container(
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.circular(20),
-                      //   color: Colors.indigo.shade200,
-                      //   border: Border.all(width: 20)
-                      // ),
-                      child: Card(
-                        child: ListTile(
-                          title: Text(shop!['name']),
-                          subtitle: Text(
-                            //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
-                              "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
-                          ),
-                          trailing: Icon(Icons.arrow_forward),
-                          onTap: () {
-                            print(shop!.id);
-                            Navigator.push(context,
-                              MaterialPageRoute(
-                                builder: (context) => ShopInfo4User(documentId: shop!.id, shopName: shop!['name'],),
+                  ),
+                  child: _nearestShops != null
+                  ?ListView.builder(
+                    //padding: const EdgeInsets.all(10),
+                    itemCount: _nearestShops?.length,
+                    itemBuilder: (context, index) {
+                      final shop = _nearestShops?[index];
+                      return Container(
+                        //padding: const EdgeInsets.only(bottom: 5),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0),
+
+                          child: Card(
+                            elevation: 10,
+                            shadowColor: Colors.red,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                  child: Text("${index+1}",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
+                              title: Text(shop!['name']),
+                              subtitle: Text(
+                                //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
+                                  "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
                               ),
-                            );
-                          },
+                              trailing: Icon(Icons.arrow_forward,color: SplashPageState.BRANDCOLOR,),
+                              onTap: () {
+                                print(shop!.id);
+                                Navigator.push(context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShopInfo4User(documentId: shop!.id, shopName: shop!['name'],),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ),
-                      ),
-                    );
+                      );
 
-                  },
-                ): Center(
-                  child: ElevatedButton(onPressed: (){
-                    _fetchLocation();
-                  },child: const Text("Nearest Available Shops"),), // Show loading indicator while fetching data
+                    },
+                  ): Center(
+                    child: ElevatedButton(onPressed: (){
+                      _fetchLocation();
+                    },child: const Text("Nearest Available Shops"),), // Show loading indicator while fetching data
+                  ),
                 ),
               ),
             ],

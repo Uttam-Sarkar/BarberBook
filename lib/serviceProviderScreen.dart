@@ -28,6 +28,10 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const CircleAvatar(
+          child: Icon(Icons.person),
+          backgroundColor: Colors.black45,
+        ),
         title: Text(appBar),
         centerTitle: true,
         actions: [
@@ -39,9 +43,6 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
             }
           ),
         ],
-        leading: const CircleAvatar(
-          backgroundColor: Colors.black45,
-        ),
         //backgroundColor: Colors.orange,
         // shape: const RoundedRectangleBorder(
         //   borderRadius: BorderRadius.only(

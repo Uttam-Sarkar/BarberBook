@@ -32,21 +32,26 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
         title: Text(widget.shopName),
       ),
       body: SingleChildScrollView(
-        child: Column(
+        padding: EdgeInsets.only(top: 18,bottom: 5,left: 10,right: 10 ),
+        child: Column(          
           children: [
             Container(
+              padding: EdgeInsets.all(10),
               height: 500,
               width: double.infinity,
-              color: Colors.greenAccent,
+              decoration: BoxDecoration(
+                color: Colors.greenAccent,
+                borderRadius: BorderRadius.circular(20)
+              ),
               child: widget.documentId!.isNotEmpty ?
               SerialDetail(documentId: widget.documentId,) // access received documetId
                   : Center(
                 child: CircularProgressIndicator(),
               ),
             ),
+            SizedBox(height: 10,),
             FloatingActionButton(
                 onPressed: (){
-
                   var user = FirebaseAuth.instance.currentUser;
                   // Handle the input data here (e.g., add to Firestore)
                   var collection = FirebaseFirestore.instance.collection('serialList');

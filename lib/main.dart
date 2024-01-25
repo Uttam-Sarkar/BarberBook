@@ -24,10 +24,36 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Salun',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
+
+        iconTheme: const IconThemeData(
+          //size: 35,
+          // why colors Dont Work
+          color: Colors.deepPurpleAccent
+         // color:  Color.fromRGBO(252,140,87, 1),
+        ),
+        //cardColor: Colors.orange,
+       // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(200,150,207, 1)),
+        // colorScheme:ColorScheme.lerp(
+        //     backgroundColor: const Color.fromRGBO(252,140,87, 1)),
+        primarySwatch: Colors.deepOrange,
+        //backgroundColor: Colors.blue,
+        // App Bar
+        appBarTheme:  const AppBarTheme(
+          backgroundColor: Color.fromRGBO(252,140,87, 1),
+          elevation: 25,
+            //surfaceTintColor: Colors.blue,
+           // scrolledUnderElevation: ,
+          shadowColor: Color.fromRGBO(252,140,87, 1),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)
+            )
+          )
+        ),
+        //useMaterial3: true,
       ),
       home:const SplashPage(),
     );
@@ -50,6 +76,8 @@ class SplashPageState extends State<SplashPage> {
   static const String PHONE = "phone";
   static const String STORENAME = "storeName";
   //static String Role = "";
+  static const Color BRANDCOLOR = Color.fromRGBO(252,140,87, 1);
+
 
   @override
   void initState() {
@@ -63,7 +91,7 @@ class SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: Container(
         color: Colors.blue,
-        child:Center(
+        child:const Center(
             child: Icon(Icons.account_circle, color: Colors.white,),
         ),
       ),
@@ -77,14 +105,14 @@ class SplashPageState extends State<SplashPage> {
     var role = sharePref.getString(ROLE);
    // Role = role!;
 
-    Timer(Duration(seconds: 2),() {
+    Timer(const Duration(seconds: 2),() {
         if (isLoggedIn != null && role != null ) {
           if (isLoggedIn) {
             //role base log in
             if (role == "ServiceProvider") {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(
-                    builder: (context) => ServiceProviderScreen(),
+                    builder: (context) => const ServiceProviderScreen(),
                   ));
             } else {
               Navigator.pushReplacement( context,
@@ -95,13 +123,13 @@ class SplashPageState extends State<SplashPage> {
           } else {
             Navigator.pushReplacement( context,
                 MaterialPageRoute(
-                  builder: (context) => MyLogin(),
+                  builder: (context) => const MyLogin(),
                 ));
           }
         } else{
           Navigator.pushReplacement( context,
               MaterialPageRoute(
-                builder: (context) => MyLogin(),
+                builder: (context) => const MyLogin(),
               ));
         }
       },

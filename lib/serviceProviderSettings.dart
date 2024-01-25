@@ -29,73 +29,79 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButtonLocation:  FloatingActionButtonLocation.endFloat,
         appBar: AppBar(
           title: const Text("Settings"),
         ),
-        body: Center(
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(35.0),
           child: Column(
             children: [
-              const SizedBox(height: 20,),
-              Text(
-                "Store Name : $storeName",
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700),
+              //const SizedBox(height: 20,),
+              ListTile(
+                leading: const Icon(Icons.storefront, color: SplashPageState.BRANDCOLOR,size: 35,),
+                title: const Text(
+                  'Store Name',
+                  textScaleFactor: 1.5,
+                ),
+                subtitle: storeName != null?
+                  Text(storeName,textScaleFactor: 1.5):Text("Null"),
               ),
-              const SizedBox(height: 20,),
-              Text(
-                "Name : $userName",
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700),
+              ListTile(
+                leading: const Icon(Icons.person, color: SplashPageState.BRANDCOLOR,size: 35,),
+                title: const Text(
+                  'Owner Name',
+                  textScaleFactor: 1.5,
+                ),
+                subtitle: userName != null?
+                Text(userName,textScaleFactor: 1.5):Text("Null"),
               ),
-              const SizedBox(
-                height: 20,
+              //const SizedBox(height: 20,),
+              ListTile(
+                leading: const Icon(Icons.phone, color: SplashPageState.BRANDCOLOR,size: 35,),
+                title: const Text(
+                  'Phone',
+                  textScaleFactor: 1.5,
+                ),
+                subtitle: phone != null?
+                Text(phone,textScaleFactor: 1.5):Text("Null"),
               ),
-              Text(
-                "Phone : $phone",
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Email : $email",
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700),
+              ListTile(
+                leading: const Icon(Icons.email_outlined, color: SplashPageState.BRANDCOLOR,size: 35, ),
+                title: const Text(
+                  'Email',
+                  textScaleFactor: 1.5,
+                ),
+                subtitle: email != null?
+                Text(email, textScaleFactor: 1.5):Text("Null"),
               ),
               const SizedBox(
                 height: 50,
               ),
-              ElevatedButton(
+              FloatingActionButton(
+                isExtended: true,
                   onPressed: () {
                     _showEditPopUp(context);
                   },
-
-                  child: const Text(
-                    "Edit",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.green,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black87, // Choose the color of the shadow
-                          blurRadius:
-                          2.0, // Adjust the blur radius for the shadow effect
-                          offset: Offset(2.0,
-                              2.0), // Set the horizontal and vertical offset for the shadow
-                        ),
-                      ],
-                    ),
-                  )),
+                  child :const Icon(Icons.edit,),
+                  // child: const Text(
+                  //   "Edit",
+                  //   style: TextStyle(
+                  //     fontSize: 30,
+                  //     fontWeight: FontWeight.w900,
+                  //     color: Colors.green,
+                  //     shadows: [
+                  //       Shadow(
+                  //         color: Colors.black87, // Choose the color of the shadow
+                  //         blurRadius:
+                  //         2.0, // Adjust the blur radius for the shadow effect
+                  //         offset: Offset(2.0,
+                  //             2.0), // Set the horizontal and vertical offset for the shadow
+                  //       ),
+                  //     ],
+                  //   ),
+                  // )
+              ),
               const SizedBox(
                 height: 100,
               ),
@@ -122,9 +128,15 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
 
                     });
                   },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.all(15),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25))
+                  ),
                   child: const Text(
-                    "Log Out",
-                    style: TextStyle(fontSize: 25, color: Colors.redAccent),
+                    "Sign Out",
+                    style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                   ))
             ],
           ),

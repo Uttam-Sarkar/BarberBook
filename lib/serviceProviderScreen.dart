@@ -39,16 +39,16 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
             }
           ),
         ],
-        leading: CircleAvatar(
+        leading: const CircleAvatar(
           backgroundColor: Colors.black45,
         ),
-        backgroundColor: Colors.orange,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10)
-          )
-        ),
+        //backgroundColor: Colors.orange,
+        // shape: const RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.only(
+        //     bottomLeft: Radius.circular(10),
+        //     bottomRight: Radius.circular(10)
+        //   )
+        // ),
       ),
 
 
@@ -56,28 +56,38 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
         child: Column(
           children: [
             //Text((add(1, 1)).toString()),
+            const SizedBox(height: 30,),
             Container(
               height: 50,
                 color: Colors.green,
                 width: double.infinity,
                 child: Text("OPTION")),
-            SizedBox(height: 10,),
-            Container(
-              height: 500,
-              width: double.infinity,
-              color: Colors.grey.shade400,
-              padding: EdgeInsets.all(10),
-              child: user!.uid.isNotEmpty ?
-              SerialDetail(documentId: '${user?.uid}',)
-              : Center(
-                child: CircularProgressIndicator(),
+           // SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 500,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(20),
+
+                ),
+                padding: const EdgeInsets.all(10),
+                child: user!.uid.isNotEmpty ?
+                SerialDetail(documentId: '${user?.uid}',)
+                : const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
             ),
+            const SizedBox(height: 5,),
             Container(
-              height: 100,
+               height: 100,
               width: double.infinity,
+              // from addSerial.dart
               child: PopUp(),
-            )
+            ),
           ],
         ),
       ),

@@ -22,7 +22,7 @@ class _SerialDetailState extends State<SerialDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    AllInfoFetch();
+    _fetchFromLocalStorage();
   }
   @override
   Widget build(BuildContext context) {
@@ -60,13 +60,29 @@ class _SerialDetailState extends State<SerialDetail> {
                 ? TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.brown)
                 : TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black);
             return Container(
+              //distance between two tile
+              padding: const EdgeInsetsDirectional.only(bottom: 5),
               // decoration: BoxDecoration(
               //   //borderRadius: BorderRadius.circular(20),
               //   //color: Colors.white,
               // ),
               child: Card(
+               // semanticContainer: true,
+                elevation:10,
+                //color: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                shadowColor: Colors.red,
+
                 child: ListTile(
-                 // leading: index.toInt();
+                  leading: CircleAvatar(
+                      child: Text('${index+1}',
+                        style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      )
+                  ),
                   title: Text(
                     array[index].toString(),
                       style:titleTextStyle,
@@ -76,7 +92,7 @@ class _SerialDetailState extends State<SerialDetail> {
                   //   borderRadius: BorderRadius.circular(20),
                   // ),
 
-                  contentPadding: EdgeInsets.all(5),
+                  contentPadding: const EdgeInsets.all(10),
                   titleTextStyle: titleTextStyle,
                 trailing: role == "ServiceProvider"?
                     ElevatedButton.icon(
@@ -89,7 +105,8 @@ class _SerialDetailState extends State<SerialDetail> {
                           'name' : FieldValue.arrayRemove(val),
                         });
                       },
-                      icon: const Icon(Icons.done), label: const Text("Done"))
+                      label: const Text("Done"),
+                      icon: const Icon(Icons.done,),  )
                       : FilledButton.icon(
                           onPressed:(){},
                           icon: const Icon(Icons.timer),
@@ -105,13 +122,12 @@ class _SerialDetailState extends State<SerialDetail> {
     );
   }
 
-  void dj(){
-    var listCollection = FirebaseFirestore.instance.collection('serialList');
+  // void dj(){
+  //   var listCollection = FirebaseFirestore.instance.collection('serialList');
+  //
+  // }
 
-
-  }
-
-  Future<void> AllInfoFetch() async {
+  Future<void> _fetchFromLocalStorage() async {
     //finding the role of the users
     var sharePref = await SharedPreferences.getInstance();
     role = sharePref.getString(SplashPageState.ROLE);

@@ -72,15 +72,16 @@ class _UserScreenState extends State<UserScreen> {
             ),
           ],
           leading: const CircleAvatar(
+            child: Icon(Icons.person),
             backgroundColor: Colors.black45,
           ),
-          backgroundColor: Colors.orange,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10)
-              )
-          ),
+          // backgroundColor: Colors.orange,
+          // shape: const RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.only(
+          //         bottomLeft: Radius.circular(10),
+          //         bottomRight: Radius.circular(10)
+          //     )
+          // ),
         ),
         body: SingleChildScrollView(
           child: Column(

@@ -6,6 +6,7 @@ import 'package:barberbook/userScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'addSerial.dart';
 import 'login.dart';
 
 Future<void> main() async {
@@ -26,12 +27,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Salun',
       theme: ThemeData(
+        splashColor: Colors.green,
+
 
         iconTheme: const IconThemeData(
           //size: 35,
           // why colors Dont Work
           color: Colors.deepPurpleAccent
-         // color:  Color.fromRGBO(252,140,87, 1),
         ),
         //cardColor: Colors.orange,
        // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(200,150,207, 1)),
@@ -56,6 +58,7 @@ class MyApp extends StatelessWidget {
         //useMaterial3: true,
       ),
       home:const SplashPage(),
+      //home:  PopUp(),
     );
   }
 }

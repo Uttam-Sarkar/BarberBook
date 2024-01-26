@@ -2,19 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class PopUp extends StatefulWidget {
+class AddSerial extends StatefulWidget {
+  const AddSerial({super.key});
+
   @override
-  State<PopUp> createState() => _PopUpState();
+  State<AddSerial> createState() => _AddSerialState();
 }
 
-class _PopUpState extends State<PopUp> {
-  //int _count = 0;
-int increase(int num) {
-  setState(() {
-    num++;
-  });
-  return num;
-}
+class _AddSerialState extends State<AddSerial> {
+  // var db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +21,7 @@ int increase(int num) {
               onPressed: () {
                 _showInputPopup(context);
               },
-              child:Icon(Icons.add),
+              child:const Icon(Icons.add),
 
             )
           ),
@@ -39,10 +35,9 @@ int increase(int num) {
       context: context,
       builder: (BuildContext context) {
         String inputText = "Customer";
-      //  int _count = 0;
 
         return AlertDialog(
-          title: Text('Input Name'),
+          title: const Text('Input Name'),
           content: TextField(
             onChanged: (text) {
               inputText = text;
@@ -52,39 +47,26 @@ int increase(int num) {
             TextButton(
               child: Text('OK'),
               onPressed: () async {
-                int _count = 1;
-                print(_count.toString());
+                int count = 1;
+                // print(_count.toString());
                 var user = FirebaseAuth.instance.currentUser;
                 // Handle the input data here (e.g., add to Firestore)
                 var collection = FirebaseFirestore.instance.collection('serialList');
-                // fetch current array size and increage it by one
                 collection.doc(user!.uid).get().then((documentSnapshot) {
                   if (documentSnapshot.exists) {
-                    _count = documentSnapshot.data()?['num'];
-                    print("Total1: $_count");
-                  } else {
-                    collection.doc(user!.uid).set({
-                        'num' : increase(_count),
-                      } );
-                  //  print("Document not found or age field is missing.");
+                    //array/serial_list length
+                    count = documentSnapshot.data()?['name'].length;
                   }
-                }).then((value){
-                  print("Tota2: $_count");
-                  collection.doc(user!.uid).update({
-                    'num': increase(_count)
-                  });
                 }).then((value) {
-                  collection
-                      .doc(user!.uid) // <-- Document ID
-                      .set({'name': FieldValue.arrayUnion(["$inputText-${_count.toString()}"])}, SetOptions(merge: true));
+                  var data = collection.doc(user!.uid); // <-- Document ID
+                      data.set({'name': FieldValue.arrayUnion(["$inputText-${(count+1).toString()}"])}, SetOptions(merge: true));
+                      data.set({'total' : count+1},SetOptions(merge: true));
                 });
-
-                print('Entered text: $inputText');
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

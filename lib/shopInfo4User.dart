@@ -44,7 +44,7 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
                 borderRadius: BorderRadius.circular(20)
               ),
               child: widget.documentId!.isNotEmpty ?
-              SerialDetail(documentId: widget.documentId,) // access received documetId
+              SerialDetail(documentId: widget.documentId, details: 'nothing',) // access received documetId
                   : Center(
                 child: CircularProgressIndicator(),
               ),

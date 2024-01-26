@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:barberbook/serialDetailsList.dart';
 import 'package:barberbook/serviceProviderSettings.dart';
+import 'package:barberbook/switch.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,11 +21,15 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
   // for app Bar
   String appBar = '';
   var user = FirebaseAuth.instance.currentUser;
+  var collection = FirebaseFirestore.instance.collection('serialList');
+  //var total = SerialDetail(documentId: user!.uid, details: 'nothing',);
 
   @override
   void initState() {
     super.initState();
     _fetchFromLocalStorage();
+
+    //findTotal();
   }
 
   @override
@@ -36,34 +44,58 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.menu_outlined),
-            onPressed: (){
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ServiceProviderSettings()));
-            }
-          ),
+              icon: const Icon(Icons.menu_outlined),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ServiceProviderSettings()));
+              }),
         ],
-        //backgroundColor: Colors.orange,
-        // shape: const RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.only(
-        //     bottomLeft: Radius.circular(10),
-        //     bottomRight: Radius.circular(10)
-        //   )
-        // ),
       ),
-
-
       body: SingleChildScrollView(
         child: Column(
           children: [
             //Text((add(1, 1)).toString()),
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 20,
+            ),
             Container(
-              height: 50,
-                color: Colors.green,
+                //height: 50,
+                //color: Colors.green,
                 width: double.infinity,
-                child: Text("OPTION")),
-           // SizedBox(height: 10,),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        const Text("Total : ",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black54)),
+                        SerialDetail(documentId: user!.uid, details: 'total'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                         Text(
+                          "Limit : ",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54),
+                        ),
+                        SerialDetail(documentId: user!.uid, details: 'limit'),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.arrow_upward))
+                      ],
+                    ),
+                    const SwitchScreen(),
+                  ],
+                )),
+            // SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -72,22 +104,26 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                 decoration: BoxDecoration(
                   color: Colors.grey.shade400,
                   borderRadius: BorderRadius.circular(20),
-
                 ),
                 padding: const EdgeInsets.all(10),
-                child: user!.uid.isNotEmpty ?
-                SerialDetail(documentId: '${user?.uid}',)
-                : const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                child: user!.uid.isNotEmpty
+                    ? SerialDetail(
+                        documentId: '${user?.uid}',
+                        details: 'nothing',
+                      )
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      ),
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Container(
-               height: 100,
+              height: 100,
               width: double.infinity,
               // from addSerial.dart
-              child: PopUp(),
+              child: const AddSerial(),
             ),
           ],
         ),
@@ -98,9 +134,18 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
   void _fetchFromLocalStorage() async {
     var sharePref = await SharedPreferences.getInstance();
     var storeName = sharePref.getString(SplashPageState.STORENAME);
-    setState (() {
+    setState(() {
       appBar = storeName!;
-
     });
   }
+
+  // String findTotal() {
+  //  // var e = user?;
+  //   collection.doc(user!.uid).get().then((documentSnapshot) {
+  //     if (documentSnapshot.exists) {
+  //       total = documentSnapshot.data()?['total'];
+  //     }
+  //   });
+  //   return total.toString();
+  // }
 }

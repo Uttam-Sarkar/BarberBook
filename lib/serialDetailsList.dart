@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SerialDetail extends StatefulWidget {
-  final String documentId; // Accept the document ID as a parameter
+  final String documentId;
+  final String details; // Accept the document ID as a parameter
 
-  SerialDetail({required this.documentId});
+  const SerialDetail({required this.documentId, required this.details});
 
   @override
   State<SerialDetail> createState() => _SerialDetailState();
 }
-
 
 class _SerialDetailState extends State<SerialDetail> {
   var role;
@@ -24,41 +24,64 @@ class _SerialDetailState extends State<SerialDetail> {
     super.initState();
     _fetchFromLocalStorage();
   }
+
   @override
   Widget build(BuildContext context) {
-
-    // finding the role of the users
-    // var role = SplashPageState.Role;
-    // role = sharePref.getString(SplashPageState.USERNAME)
-    // FirebaseFirestore.instance.collection('users').doc(widget.documentId).get()
-    // .then((DocumentSnapshot documentSnapshot){
-    //   role = documentSnapshot['role'];
-    // });
-
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('serialList').doc(widget.documentId).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('serialList')
+          .doc(widget.documentId)
+          .snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (!snapshot.hasData || snapshot.data!.data() == null) {
-          return Text('No data available');
+          return const Text('No data available');
         }
 
         var data = snapshot.data!.data() as Map<String, dynamic>;
         List<dynamic> array = data['name'];
 
-        if (array.isEmpty) {
-          return Text('No data available');
+        // Total And Limit Start
+        var total = data['total'];
+        int limit = data['limit'];
+
+        if (widget.details == "total") {
+          return Text("$total",
+              style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black));
+        }
+        if (widget.details == "limit") {
+          return Text("$limit",
+              style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black));
         }
 
+        // End
+
+        if (array.isEmpty) {
+          return const Text('No data available');
+        }
+
+        //list tiles Start here
         return ListView.builder(
           itemCount: array.length,
           itemBuilder: (context, index) {
             final TextStyle titleTextStyle = index.isEven
-                ? TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.brown)
-                : TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black);
+                ? const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.brown)
+                : const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black);
             return Container(
               //distance between two tile
               padding: const EdgeInsetsDirectional.only(bottom: 5),
@@ -67,25 +90,23 @@ class _SerialDetailState extends State<SerialDetail> {
               //   //color: Colors.white,
               // ),
               child: Card(
-               // semanticContainer: true,
-                elevation:10,
+                // semanticContainer: true,
+                elevation: 10,
                 //color: Colors.red,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ),
+                    borderRadius: BorderRadius.circular(20)),
                 shadowColor: Colors.red,
 
                 child: ListTile(
                   leading: CircleAvatar(
-                      child: Text('${index+1}',
-                        style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
-                      )
-                  ),
+                      child: Text(
+                    '${index + 1}',
+                    style: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.bold),
+                  )),
                   title: Text(
                     array[index].toString(),
-                      style:titleTextStyle,
+                    style: titleTextStyle,
                   ),
                   // tileColor: Colors.greenAccent,
                   // shape: RoundedRectangleBorder(
@@ -94,25 +115,31 @@ class _SerialDetailState extends State<SerialDetail> {
 
                   contentPadding: const EdgeInsets.all(10),
                   titleTextStyle: titleTextStyle,
-                trailing: role == "ServiceProvider"?
-                    ElevatedButton.icon(
-                      onPressed: (){
-                        var val = [];
-                        val.add(array[index].toString());
-                        final collection = FirebaseFirestore.instance.collection('serialList');
-                        collection.doc(widget.documentId)
-                        .update({
-                          'name' : FieldValue.arrayRemove(val),
-                        });
-                      },
-                      label: const Text("Done"),
-                      icon: const Icon(Icons.done,),  )
+                  trailing: role == "ServiceProvider"
+                      ? ElevatedButton.icon(
+                          onPressed: () {
+                            var val = [];
+                            val.add(array[index].toString());
+                            final collection = FirebaseFirestore.instance
+                                .collection('serialList');
+                            collection.doc(widget.documentId).update({
+                              'name': FieldValue.arrayRemove(val),
+                            });
+                            collection.doc(widget.documentId).update(
+                                {
+                              'total': array.length-1,
+                            });
+                          },
+                          label: const Text("Done"),
+                          icon: const Icon(
+                            Icons.done,
+                          ),
+                        )
                       : FilledButton.icon(
-                          onPressed:(){},
+                          onPressed: () {},
                           icon: const Icon(Icons.timer),
                           label: const Text(""),
-                ),
-
+                        ),
                 ),
               ),
             );
@@ -122,15 +149,9 @@ class _SerialDetailState extends State<SerialDetail> {
     );
   }
 
-  // void dj(){
-  //   var listCollection = FirebaseFirestore.instance.collection('serialList');
-  //
-  // }
-
   Future<void> _fetchFromLocalStorage() async {
     //finding the role of the users
     var sharePref = await SharedPreferences.getInstance();
     role = sharePref.getString(SplashPageState.ROLE);
   }
 }
-

@@ -3,6 +3,7 @@ import 'package:barberbook/setStoreLocation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 class MyRegister extends StatefulWidget {
   const MyRegister({super.key});
 
@@ -11,10 +12,10 @@ class MyRegister extends StatefulWidget {
 }
 
 class _MyRegisterState extends State<MyRegister> {
-  final  userEmail = TextEditingController();
-  final  userPassword = TextEditingController();
+  final userEmail = TextEditingController();
+  final userPassword = TextEditingController();
   final userName = TextEditingController();
-  final userPhone = "";//TextEditingController();
+  final userPhone = ""; //TextEditingController();
 
   var options = [
     'User',
@@ -28,23 +29,23 @@ class _MyRegisterState extends State<MyRegister> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/images/register.png'), fit: BoxFit.cover)
-      ),
+              image: AssetImage('assets/images/register.png'),
+              fit: BoxFit.cover)),
       child: Scaffold(
-
         backgroundColor: Colors.transparent,
-
         body: Stack(
           children: [
             Container(
               padding: EdgeInsets.only(left: 38, top: 140),
               child: Text(
                 'Create\nAccount',
-                style: TextStyle(color: Colors.white, fontSize: 35),),
+                style: TextStyle(color: Colors.white, fontSize: 35),
+              ),
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.40,
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.40,
                     right: 35,
                     left: 35),
                 child: Column(
@@ -58,33 +59,31 @@ class _MyRegisterState extends State<MyRegister> {
                           ),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.white)
-                          ),
+                              borderSide: BorderSide(color: Colors.white)),
                           hintText: 'Name',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          )
-                      ),
+                              borderRadius: BorderRadius.circular(10))),
                     ),
-                    SizedBox(height: 30,),
+                    SizedBox(
+                      height: 30,
+                    ),
                     TextField(
                       controller: userEmail,
                       decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.white)
-                        ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.white)),
                           hintText: 'Email',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          )
-                      ),
+                              borderRadius: BorderRadius.circular(10))),
                     ),
-                    SizedBox(height: 30,),
+                    SizedBox(
+                      height: 30,
+                    ),
                     TextField(
                       controller: userPassword,
                       obscureText: true,
@@ -95,62 +94,60 @@ class _MyRegisterState extends State<MyRegister> {
                           ),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.white)
-                          ),
+                              borderSide: BorderSide(color: Colors.white)),
                           hintText: 'Password',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          )
+                              borderRadius: BorderRadius.circular(10))),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Resister as a : ",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff4c505b),
+                            ),
+                          ),
+                          DropdownButton<String>(
+                            dropdownColor: Colors.blue[200],
+                            isDense: true,
+                            isExpanded: false,
+                            iconEnabledColor: Colors.blue,
+                            focusColor: Colors.transparent,
+                            items: options.map((String dropDownStringItem) {
+                              return DropdownMenuItem<String>(
+                                value: dropDownStringItem,
+                                child: Text(
+                                  dropDownStringItem,
+                                  style: const TextStyle(
+                                    color: Color(0xff4c505b),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (newValueSelected) {
+                              setState(() {
+                                _currentItemSelected = newValueSelected!;
+                                role = newValueSelected;
+                              });
+                            },
+                            value: _currentItemSelected,
+                          ),
+                        ],
                       ),
                     ),
-                SizedBox(height: 20,),
-
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Resister as a : ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff4c505b),
-                        ),
-                      ),
-
-                      DropdownButton<String>(
-                        dropdownColor: Colors.blue[200],
-                        isDense: true,
-                        isExpanded: false,
-                        iconEnabledColor: Colors.blue,
-                        focusColor: Colors.transparent,
-                        items: options.map((String dropDownStringItem) {
-                          return DropdownMenuItem<String>(
-                            value: dropDownStringItem,
-                            child: Text(
-                              dropDownStringItem,
-                              style: const TextStyle(
-                                color: Color(0xff4c505b),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (newValueSelected) {
-                          setState(() {
-                            _currentItemSelected = newValueSelected!;
-                            role = newValueSelected;
-                          });
-                        },
-                        value: _currentItemSelected,
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: 40,),
+                    SizedBox(
+                      height: 40,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -166,74 +163,97 @@ class _MyRegisterState extends State<MyRegister> {
                           backgroundColor: Color(0xff4c505b),
                           child: IconButton(
                             color: Colors.white,
-                            onPressed: (){
-                     //Firebase
-
+                            onPressed: () {
+                              //Firebase
                               FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
-                                  email : userEmail.text,
-                                  password : userPassword.text)
-                                  .then((value){
+                                      email: userEmail.text,
+                                      password: userPassword.text)
+                                  .then((value) {
                                 User? userr = value.user;
-                                userr?.updateProfile(displayName: userName.text);
-                                    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-                                    var user = FirebaseAuth.instance.currentUser;
-                                    CollectionReference ref = FirebaseFirestore.instance.collection('users');
-                                    ref.doc(user!.uid).set({
-                                      'name': userName.text,
-                                      'phone' : userPhone,
-                                      'email': userEmail.text,
-                                      'role': role,
-                                      'storeName' : "",
-                                    });
-                                    print('Created new account.');
-                                    // Successfully notification
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          backgroundColor: Colors.green,
-                                          content: Center(
-                                            child: Text("Sign up Successfully"),
-                                          )
-                                      ),
-                                    );
-                                    if(role == "User")
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context)=> MyLogin()));
-                                    else
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context)=> SetStoreLocation()));
+                                userr?.updateProfile(
+                                    displayName: userName.text);
+                                var user = FirebaseAuth.instance.currentUser;
 
-                              }).onError((error, stackTrace){
-                                 print("Error ${error.toString()}");
-                                 // error Notification
-                                 ScaffoldMessenger.of(context).showSnackBar(
-                                   const SnackBar(
-                                       backgroundColor: Colors.red,
-                                       content: Center(
-                                         child: Text("This Email already exist!"),
-                                       )
-                                   ),
-                                 );
+                                CollectionReference ref = FirebaseFirestore
+                                    .instance
+                                    .collection('users');
+                                ref.doc(user!.uid).set({
+                                  'name': userName.text,
+                                  'phone': userPhone,
+                                  'email': userEmail.text,
+                                  'role': role,
+                                  'storeName': "",
+                                });
+                                if(role == "ServiceProvider"){
+                                  CollectionReference ref = FirebaseFirestore
+                                      .instance
+                                      .collection('serialList');
+                                  ref.doc(user!.uid).set({
+                                    'activity': false,
+                                    'limit': 5,
+                                    'total': 0,
+                                    'name' : [],
+                                  });
+                                }
 
+                                print('Created new account.');
+                                // Successfully notification
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Center(
+                                        child: Text("Sign up Successfully"),
+                                      )),
+                                );
+                                if (role == "User")
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyLogin()));
+                                else
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SetStoreLocation()));
+                              }).onError((error, stackTrace) {
+                                print("Error ${error.toString()}");
+                                // error Notification
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Center(
+                                        child:
+                                            Text("This Email already exist!"),
+                                      )),
+                                );
                               });
                             },
-                            icon:  Icon(Icons.arrow_forward),
+                            icon: Icon(Icons.arrow_forward),
                           ),
                         )
                       ],
                     ),
-                    SizedBox(height: 40,),
+                    SizedBox(
+                      height: 40,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                            'Already have an account?',
+                          'Already have an account?',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Color(0xff4c505b),),),
+                            color: Color(0xff4c505b),
+                          ),
+                        ),
                         TextButton(
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MyLogin()));
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyLogin()));
                             },
                             child: Text(
                               'Log In',

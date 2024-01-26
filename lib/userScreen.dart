@@ -21,13 +21,12 @@ class _UserScreenState extends State<UserScreen> {
   String appBar = '';
   final LocationService locationService = LocationService();
   Position? _currentPosition;
-  List<DocumentSnapshot>? _nearestShops ;
+  List<DocumentSnapshot>? _nearestShops;
   // DocumentSnapshot<Object?> shopSnapshot = _nearestShops as DocumentSnapshot<Object?>; // Your DocumentSnapshot
-
 
   Future<void> _fetchLocation() async {
     final Position position = await locationService.getLocation();
-    try{
+    try {
       setState(() {
         _currentPosition = position;
       });
@@ -35,14 +34,14 @@ class _UserScreenState extends State<UserScreen> {
       // 30 Nearest Shop
       setState(() async {
         _nearestShops = await getNearestShops(_currentPosition as Position);
-
       });
-    }catch (e){
+    } catch (e) {
       print(e);
     }
   }
 
-  double _calculateDistance(double lat1, double long1, double lat2, double long2) {
+  double _calculateDistance(
+      double lat1, double long1, double lat2, double long2) {
     // Use the Haversine formula or geolocator to calculate distance
     return Geolocator.distanceBetween(lat1, long1, lat2, long2);
   }
@@ -54,107 +53,121 @@ class _UserScreenState extends State<UserScreen> {
     _fetchFromLocalStorage();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: const CircleAvatar(
-            child: Icon(Icons.person),
-            backgroundColor: Colors.black45,
-          ),
-          title: Text(appBar),
-          centerTitle: false,
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.menu_outlined),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const UserSettings()));
-                }
+      appBar: AppBar(
+        leading: const CircleAvatar(
+          child: Icon(Icons.person),
+          backgroundColor: Colors.black45,
+        ),
+        title: Text(appBar),
+        centerTitle: false,
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.menu_outlined),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const UserSettings()));
+              }),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 50,
+              width: double.infinity,
+              color: Colors.red,
+              child: Text("Uttam"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: const EdgeInsets.all(10.0),
+                height: 500,
+                width: double.infinity,
+                //color: Colors.cyanAccent.shade100,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: _nearestShops != null
+                    ? ListView.builder(
+                        //padding: const EdgeInsets.all(10),
+                        itemCount: _nearestShops?.length,
+                        itemBuilder: (context, index) {
+                          final shop = _nearestShops?[index];
+                          return Container(
+                            //padding: const EdgeInsets.only(bottom: 5),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: Card(
+                                elevation: 10,
+                                shadowColor: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                      child: Text(
+                                    "${index + 1}",
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                  title: Text(shop!['name']),
+                                  subtitle: Text(
+                                    //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
+                                    "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward,
+                                    color: SplashPageState.BRANDCOLOR,
+                                  ),
+                                  onTap: () {
+                                    print(shop!.id);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ShopInfo4User(
+                                          documentId: shop!.id,
+                                          shopName: shop!['name'],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _fetchLocation();
+                          },
+                          child: const Text("Nearest Available Shops"),
+                        ), // Show loading indicator while fetching data
+                      ),
+              ),
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 30,),
-              Container(
-                height: 50,
-                width: double.infinity,
-                color: Colors.red,
-                child: Text("Uttam"),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  height: 500,
-                  width: double.infinity,
-                  //color: Colors.cyanAccent.shade100,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade400,
-                    borderRadius: BorderRadius.circular(20),
-
-                  ),
-                  child: _nearestShops != null
-                  ?ListView.builder(
-                    //padding: const EdgeInsets.all(10),
-                    itemCount: _nearestShops?.length,
-                    itemBuilder: (context, index) {
-                      final shop = _nearestShops?[index];
-                      return Container(
-                        //padding: const EdgeInsets.only(bottom: 5),
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-
-                          child: Card(
-                            elevation: 10,
-                            shadowColor: Colors.red,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                  child: Text("${index+1}",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
-                              title: Text(shop!['name']),
-                              subtitle: Text(
-                                //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
-                                  "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
-                              ),
-                              trailing: Icon(Icons.arrow_forward,color: SplashPageState.BRANDCOLOR,),
-                              onTap: () {
-                                print(shop!.id);
-                                Navigator.push(context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ShopInfo4User(documentId: shop!.id, shopName: shop!['name'],),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      );
-
-                    },
-                  ): Center(
-                    child: ElevatedButton(onPressed: (){
-                      _fetchLocation();
-                    },child: const Text("Nearest Available Shops"),), // Show loading indicator while fetching data
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      ),
     );
   }
 
   void _fetchFromLocalStorage() async {
     var sharePref = await SharedPreferences.getInstance();
     var userName = sharePref.getString(SplashPageState.USERNAME);
-    setState (() {
+    setState(() {
       appBar = userName!;
-
     });
   }
 }

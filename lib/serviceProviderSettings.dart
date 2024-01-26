@@ -84,23 +84,6 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
                     _showEditPopUp(context);
                   },
                   child :const Icon(Icons.edit,),
-                  // child: const Text(
-                  //   "Edit",
-                  //   style: TextStyle(
-                  //     fontSize: 30,
-                  //     fontWeight: FontWeight.w900,
-                  //     color: Colors.green,
-                  //     shadows: [
-                  //       Shadow(
-                  //         color: Colors.black87, // Choose the color of the shadow
-                  //         blurRadius:
-                  //         2.0, // Adjust the blur radius for the shadow effect
-                  //         offset: Offset(2.0,
-                  //             2.0), // Set the horizontal and vertical offset for the shadow
-                  //       ),
-                  //     ],
-                  //   ),
-                  // )
               ),
               const SizedBox(
                 height: 100,

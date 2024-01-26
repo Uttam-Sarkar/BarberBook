@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SwitchScreen extends StatefulWidget {
@@ -11,12 +13,23 @@ class SwitchClass extends State {
   bool isSwitched = false;
   var textValue = 'Switch is OFF';
 
-  void toggleSwitch(bool value) {
+  Future<void> toggleSwitch(bool value) async {
+    bool active = isSwitched;
+    var user = FirebaseAuth.instance.currentUser;
+    var data = await FirebaseFirestore.instance
+        .collection('serialList')
+        .doc(user!.uid);
+      //   .get()
+      //   .then((DocumentSnapshot documentSnapshot) {
+      // if (documentSnapshot.exists) {
+      //   //array,serial_list length
+      // }});
 
     if(isSwitched == false)
     {
       setState(() {
         isSwitched = true;
+        data.set({'activity' : true}, SetOptions(merge: true));
         textValue = 'Switch Button is ON';
       });
       print('Switch Button is ON');
@@ -25,6 +38,7 @@ class SwitchClass extends State {
     {
       setState(() {
         isSwitched = false;
+        data.set({'activity' : false}, SetOptions(merge: true));
         textValue = 'Switch Button is OFF';
       });
       print('Switch Button is OFF');

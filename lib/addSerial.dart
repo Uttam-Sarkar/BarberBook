@@ -17,14 +17,12 @@ class _AddSerialState extends State<AddSerial> {
       body: Column(
         children: [
           Center(
-            child: FloatingActionButton(
-              onPressed: () {
-                _showInputPopup(context);
-              },
-              child:const Icon(Icons.add),
-
-            )
-          ),
+              child: FloatingActionButton(
+            onPressed: () {
+              _showInputPopup(context);
+            },
+            child: const Icon(Icons.add),
+          )),
         ],
       ),
     );
@@ -51,17 +49,50 @@ class _AddSerialState extends State<AddSerial> {
                 // print(_count.toString());
                 var user = FirebaseAuth.instance.currentUser;
                 // Handle the input data here (e.g., add to Firestore)
-                var collection = FirebaseFirestore.instance.collection('serialList');
+                var collection =
+                    FirebaseFirestore.instance.collection('serialList');
+                var total;
+                var limit;
+                var activity;
                 collection.doc(user!.uid).get().then((documentSnapshot) {
                   if (documentSnapshot.exists) {
-                    //array/serial_list length
+                    //array,serial_list length
                     count = documentSnapshot.data()?['name'].length;
+                    total = documentSnapshot.data()?['total'];
+                    limit = documentSnapshot.data()?['limit'];
+                    activity = documentSnapshot.data()?['activity'];
+
                   }
                 }).then((value) {
-                  var data = collection.doc(user!.uid); // <-- Document ID
-                      data.set({'name': FieldValue.arrayUnion(["$inputText-${(count+1).toString()}"])}, SetOptions(merge: true));
-                      data.set({'total' : count+1},SetOptions(merge: true));
+                  print("activity : $activity");
+                  print(total + 1 > limit );
+                  if (total + 1 <= limit && activity) {
+                    var data = collection.doc(user!.uid); // <-- Document ID
+                    data.set({
+                      'name': FieldValue.arrayUnion(
+                          ["$inputText-${(count + 1).toString()}"])
+                    }, SetOptions(merge: true));
+                    data.set({'total': count + 1}, SetOptions(merge: true));
+                  } else if(!activity) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Center(
+                            child: Text("Shop already Closed"),
+                          )),
+                    );
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Center(
+                            child: Text("Limit Exceeded"),
+                          )),
+                    );
+                  }
                 });
+
                 Navigator.of(context).pop();
               },
             ),

@@ -136,12 +136,10 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-
         userName = documentSnapshot.get(SplashPageState.USERNAME);
         storeName = documentSnapshot.get(SplashPageState.STORENAME);
         phone = documentSnapshot.get(SplashPageState.PHONE);
         email = documentSnapshot.get(SplashPageState.EMAIL);
-
       }});
     setState(() {
 
@@ -220,12 +218,16 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
 
                 var user = FirebaseAuth.instance.currentUser;
                 CollectionReference ref = FirebaseFirestore.instance.collection('users');
-                ref.doc(user!.uid).update({
+                CollectionReference refLocation = FirebaseFirestore.instance.collection('locationDetails');
+                ref.doc(user!.uid).set({
                   SplashPageState.USERNAME : userName,
                   SplashPageState.PHONE: phone,
                   SplashPageState.EMAIL: email,
                   SplashPageState.STORENAME : storeName,
-                });
+                },SetOptions(merge: true));
+                refLocation.doc(user!.uid).set({
+                  SplashPageState.STORENAME : storeName,
+                },SetOptions(merge: true));
                 setState(() {
 
                 });

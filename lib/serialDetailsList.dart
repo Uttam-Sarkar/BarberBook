@@ -64,6 +64,7 @@ class _SerialDetailState extends State<SerialDetail> {
         }
         if (widget.details == "limit-total") {
           return FilledButton(
+
             onPressed: (){},
               child:
             Column(

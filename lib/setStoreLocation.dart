@@ -1,4 +1,5 @@
 import 'package:barberbook/login.dart';
+import 'package:barberbook/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,13 +107,13 @@ class _SetStoreLocationState extends State<SetStoreLocation> {
                       final users = FirebaseFirestore.instance.collection('users');
                       var user = FirebaseAuth.instance.currentUser;
                       await locationDetails.doc(user!.uid).set({
-                      //  'name' : storeName.text,
+                        SplashPageState.STORENAME : storeName.text,
                         'latitude' : _currentPosition!.latitude,
                         'longitude' : _currentPosition!.longitude,
-                      });
-                      await users.doc(user!.uid).update({
-                        'storeName' : storeName.text,
-                      });
+                      },SetOptions(merge: true ));
+                      await users.doc(user!.uid).set({
+                        SplashPageState.STORENAME : storeName.text,
+                      },SetOptions(merge: true ));
                       // Successfully notification
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

@@ -116,11 +116,12 @@ class _UserScreenState extends State<UserScreen> {
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
                                   )),
-                                  title: Text(shop!['name']),
+                                  title: Text(shop![SplashPageState.STORENAME]),
                                   subtitle: Text(
                                     //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
                                     "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
                                   ),
+
                                   trailing:  SerialDetail(
                                       documentId: shop.id, details: 'limit-total'),
 
@@ -131,7 +132,7 @@ class _UserScreenState extends State<UserScreen> {
                                       MaterialPageRoute(
                                         builder: (context) => ShopInfo4User(
                                           documentId: shop!.id,
-                                          shopName: shop!['name'],
+                                          shopName: shop![SplashPageState.STORENAME],
                                         ),
                                       ),
                                     );

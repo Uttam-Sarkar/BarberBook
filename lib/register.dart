@@ -1,4 +1,5 @@
 import 'package:barberbook/login.dart';
+import 'package:barberbook/main.dart';
 import 'package:barberbook/setStoreLocation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -179,11 +180,12 @@ class _MyRegisterState extends State<MyRegister> {
                                     .instance
                                     .collection('users');
                                 ref.doc(user!.uid).set({
-                                  'name': userName.text,
-                                  'phone': userPhone,
-                                  'email': userEmail.text,
-                                  'role': role,
-                                  'storeName': "",
+                                  SplashPageState.USERNAME : userName.text,
+                                  SplashPageState.PHONE : userPhone,
+                                  SplashPageState.EMAIL : userEmail.text,
+                                  SplashPageState.ROLE : role,
+                                  SplashPageState.STORENAME : "",
+                                  SplashPageState.GIVESERIAL : false,
                                 });
                                 if(role == "ServiceProvider"){
                                   CollectionReference ref = FirebaseFirestore

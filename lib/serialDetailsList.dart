@@ -38,7 +38,7 @@ class _SerialDetailState extends State<SerialDetail> {
         }
 
         if (!snapshot.hasData || snapshot.data!.data() == null) {
-          return const Text('No data available');
+          return const Center(child: Text('No data available'));
         }
 
         var data = snapshot.data!.data() as Map<String, dynamic>;
@@ -63,35 +63,37 @@ class _SerialDetailState extends State<SerialDetail> {
                   color: Colors.black));
         }
         if (widget.details == "limit-total") {
-          return FilledButton(
-
-            onPressed: (){},
-              child:
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("$total",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        //color: Colors.greenAccent,
-                      )),
-                    Text("/$limit",
+          return Container(
+           // width: 150,
+            child: FilledButton(
+              onPressed: (){},
+                child:
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("$total",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           //color: Colors.greenAccent,
                         )),
-                  ],
-                ),
-                const Text("time"),
-              ],
+                      Text("/$limit",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            //color: Colors.greenAccent,
+                          )),
+                    ],
+                  ),
+                  const Text("time"),
+                ],
 
-            ),
-        );
+              ),
+        ),
+          );
         }
 
         // End
@@ -106,11 +108,11 @@ class _SerialDetailState extends State<SerialDetail> {
           itemBuilder: (context, index) {
             final TextStyle titleTextStyle = index.isEven
                 ? const TextStyle(
-                    fontSize: 30,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: Colors.brown)
                 : const TextStyle(
-                    fontSize: 26,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.black);
             return Container(
@@ -165,11 +167,12 @@ class _SerialDetailState extends State<SerialDetail> {
                             Icons.done,
                           ),
                         )
-                      : FilledButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.timer),
-                          label: const Text(""),
-                        ),
+                      : Text(""),
+                  // FilledButton.icon(
+                  //         onPressed: () {},
+                  //         icon: const Icon(Icons.),
+                  //         label: const Text(""),
+                  //       ),
                 ),
               ),
             );

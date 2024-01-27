@@ -170,6 +170,7 @@ void route() async{
     String storeName = "Store";
     String phone = "";
     String email ="";
+    bool giveSerial = false;
 
     sharePref.setBool(SplashPageState.KEYLOGIN, true);
   User? user = FirebaseAuth.instance.currentUser;
@@ -183,7 +184,6 @@ void route() async{
       print(documentSnapshot);
       if ( documentSnapshot.get('role') == "ServiceProvider") {
         //set role : for this we come to here otherwise it can be call main.dart
-        print("33333333333");
         sharePref.setString(SplashPageState.ROLE, "ServiceProvider");
 
         if(documentSnapshot.get(SplashPageState.USERNAME) != null) {
@@ -211,6 +211,7 @@ void route() async{
       }else{
         //set role
         sharePref.setString(SplashPageState.ROLE, "User");
+
         if(documentSnapshot.get(SplashPageState.USERNAME) != null) {
           name = documentSnapshot.get(SplashPageState.USERNAME);
         }
@@ -220,9 +221,14 @@ void route() async{
         if(documentSnapshot.get(SplashPageState.EMAIL) != null) {
           email = documentSnapshot.get(SplashPageState.EMAIL);
         }
+        if(documentSnapshot.get(SplashPageState.GIVESERIAL) != null) {
+          giveSerial = documentSnapshot.get(SplashPageState.GIVESERIAL);
+        }
+
         sharePref.setString(SplashPageState.USERNAME, name);
         sharePref.setString(SplashPageState.PHONE, phone);
         sharePref.setString(SplashPageState.EMAIL, email);
+        sharePref.setBool(SplashPageState.GIVESERIAL, giveSerial);
         Navigator.pushReplacement(context,
           MaterialPageRoute(
             builder: (context) =>  const UserScreen(),

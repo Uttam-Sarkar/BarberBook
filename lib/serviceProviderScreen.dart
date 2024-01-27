@@ -61,6 +61,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
             const SizedBox(
               height: 20,
             ),
+
             // total limit ans switch
             Container(
                 //height: 50,
@@ -132,17 +133,29 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                             icon: const Icon(Icons.arrow_upward))
                       ],
                     ),
+                    //switch button
                     const SwitchScreen(),
                   ],
                 )),
-            // SizedBox(height: 10,),
+             SizedBox(height: 20,),
+            Container(
+              padding: EdgeInsets.only(left:30, right: 30, bottom: 5,top: 5),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade200,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                "Serial List",
+                style: TextStyle(fontSize:20,fontWeight: FontWeight.bold, ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 height: 500,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade400,
+                  color: Colors.deepOrange.shade100,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: const EdgeInsets.all(10),

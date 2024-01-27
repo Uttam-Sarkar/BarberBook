@@ -20,14 +20,19 @@ class ShopInfo4User extends StatefulWidget {
 class _ShopInfo4UserState extends State<ShopInfo4User> {
   var userName = "user";
   User? _user;
+  bool giveSerial = false;
 
   @override
   void initState() {
     super.initState();
     _fetchFromLocalStorage();
     // Get the current user
-
     _user = FirebaseAuth.instance.currentUser;
+    // FirebaseFirestore.instance
+    //     .collection('serialList')
+    //     .doc(_user!.uid)
+    //     .get()
+    //     .then((value) => isToggle = value['giveSerial']);
   }
 
   @override
@@ -40,6 +45,24 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
           padding: EdgeInsets.only(top: 18, bottom: 5, left: 10, right: 10),
           child: Column(
             children: [
+              Container(
+                padding:
+                    EdgeInsets.only(left: 30, right: 30, bottom: 5, top: 5),
+                decoration: BoxDecoration(
+                  color: Colors.tealAccent,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Text(
+                  "Serial List",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
               Container(
                 padding: EdgeInsets.all(10),
                 height: 500,
@@ -61,90 +84,103 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
               ),
               FloatingActionButton(
                 onPressed: () async {
-                  //for localStorage
                   var sharePref = await SharedPreferences.getInstance();
-                  int count = 1;
-                  // print(_count.toString());
-                  //_user = FirebaseAuth.instance.currentUser;
-                  // Handle the input data here (e.g., add to Firestore)
-                  var collection =
-                      FirebaseFirestore.instance.collection('serialList');
-                  var total;
-                  var limit;
-                  var activity;
-                  collection.doc(widget.documentId).get().then((documentSnapshot) {
-                    if (documentSnapshot.exists) {
-                      print("documentSnapshot");
-                      //array,serial_list length
-                      count = documentSnapshot.data()?['name'].length;
-                      total = documentSnapshot.data()?['total'];
-                      limit = documentSnapshot.data()?['limit'];
-                      activity = documentSnapshot.data()?['activity'];
-                    }
-                  }).then((value) {
-                    print("activity : $activity");
-                    print("$total + 1  $limit");
-                    if (total + 1 <= limit && activity) {
-                      var data = collection.doc(widget.documentId); // <-- Document ID
-                      data.set({
-                        'name': FieldValue.arrayUnion([userName])
-                      }, SetOptions(merge: true));
-                      data.set({'total': count + 1}, SetOptions(merge: true));
-                    } else if (!activity) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Center(
-                              child: Text("Shop already Closed"),
-                            )),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Center(
-                              child: Text("Limit Exceeded"),
-                            )),
-                      );
-                    }
+                  setState(() {
+                    giveSerial = !giveSerial;
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(_user!.uid).update({
+                      SplashPageState.GIVESERIAL : giveSerial
+
+                    });
+                    sharePref.setBool(SplashPageState.GIVESERIAL, giveSerial);
                   });
 
-                 // Navigator.of(context).pop();
+                  if (giveSerial) {
+                    //for localStorage
+
+                    int count = 1;
+                    // print(_count.toString());
+                    //_user = FirebaseAuth.instance.currentUser;
+                    // Handle the input data here (e.g., add to Firestore)
+                    var collection =
+                        FirebaseFirestore.instance.collection('serialList');
+                    var total;
+                    var limit;
+                    var activity;
+                    collection
+                        .doc(widget.documentId)
+                        .get()
+                        .then((documentSnapshot) {
+                      if (documentSnapshot.exists) {
+                        print("documentSnapshot");
+                        //array,serial_list length
+                        count = documentSnapshot.data()?['name'].length;
+                        total = documentSnapshot.data()?['total'];
+                        limit = documentSnapshot.data()?['limit'];
+                        activity = documentSnapshot.data()?['activity'];
+                      }
+                    }).then((value) {
+                      print("activity : $activity");
+                      print("$total + 1  $limit");
+                      if (total + 1 <= limit && activity) {
+                        var data = collection
+                            .doc(widget.documentId); // <-- Document ID
+                        data.set({
+                          'name': FieldValue.arrayUnion([userName])
+                        }, SetOptions(merge: true));
+                        data.set({'total': count + 1}, SetOptions(merge: true));
+                      } else if (!activity) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Center(
+                                child: Text("Shop already Closed"),
+                              )),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Center(
+                                child: Text("Limit Exceeded"),
+                              )),
+                        );
+                      }
+                    });
+                    // Navigator.of(context).pop();
+                  } else {
+                    var total ;
+                    var val = [];
+                    val.add(userName);
+
+                    var collection =
+                    FirebaseFirestore.instance.collection('serialList');
+
+                    collection.doc(widget.documentId)
+                        .update({
+                      'name' : FieldValue.arrayRemove(val),
+                    });
+
+
+                    collection.doc(widget.documentId).get().then((documentSnapshot) {
+                      if (documentSnapshot.exists) {
+                       //array,serial_list length
+
+                        total = documentSnapshot.data()?['total'];
+
+                      }
+                    }).then((value) {
+
+                      collection.doc(widget.documentId).update({
+                        'total' : total-1
+                      });
+                    });
+                  }
                 },
-                // onPressed: () {
-                //   var user = FirebaseAuth.instance.currentUser;
-                //   // Handle the input data here (e.g., add to Firestore)
-                //   var collection =
-                //       FirebaseFirestore.instance.collection('serialList');
-                //   var data = collection
-                //       .doc(widget.documentId)
-                //   var doc = collection
-                //       .doc(widget.documentId) // <-- Document ID
-                //       .set({
-                //     'name': FieldValue.arrayUnion([_user!.displayName])
-                //   }, SetOptions(merge: true)) // <-- Add data
-                //       .then((value) {
-                //     print('Added');
-                //     ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(
-                //           backgroundColor: Colors.green,
-                //           content: Center(
-                //             child: Text("Added Successfully"),
-                //           )),
-                //     );
-                //   }).catchError((error) {
-                //     print('Add failed: $error');
-                //     ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(
-                //           backgroundColor: Colors.red,
-                //           content: Center(
-                //             child: Text("Something Wrong"),
-                //           )),
-                //     );
-                //   });
-                // },
-                child: Icon(Icons.hail),
-              )
+                backgroundColor:giveSerial ? Colors.red : Colors.green,
+                child: giveSerial ?  Text('X',style: TextStyle(fontSize: 20),) : Icon(Icons.add),
+              ),
             ],
           ),
         ));
@@ -153,6 +189,8 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
   void _fetchFromLocalStorage() async {
     var sharePref = await SharedPreferences.getInstance();
     userName = sharePref.getString(SplashPageState.USERNAME)!;
+    giveSerial = sharePref.getBool(SplashPageState.GIVESERIAL)!;
+
     // setState(() {
     //   appBar = userName!;
     // });

@@ -82,6 +82,17 @@ class _UserScreenState extends State<UserScreen> {
             const SizedBox(
               height: 30,
             ),
+            Container(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 5,top: 5),
+              decoration: BoxDecoration(
+                color: Colors.greenAccent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                "Available Shops",
+                style: TextStyle(fontSize:20,fontWeight: FontWeight.bold),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -90,7 +101,7 @@ class _UserScreenState extends State<UserScreen> {
                 width: double.infinity,
                 //color: Colors.cyanAccent.shade100,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade400,
+                  color: Colors.tealAccent,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: _nearestShops != null
@@ -116,15 +127,24 @@ class _UserScreenState extends State<UserScreen> {
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
                                   )),
-                                  title: Text(shop![SplashPageState.STORENAME]),
-                                  subtitle: Text(
-                                    //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
-                                    "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
+                                  title: Text(
+                                    shop![SplashPageState.STORENAME],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
-
-                                  trailing:  SerialDetail(
-                                      documentId: shop.id, details: 'limit-total'),
-
+                                  subtitle: Row(
+                                    children: [
+                                      Icon(Icons.social_distance),
+                                      Text(
+                                        //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
+                                        " ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(0)} m",
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: SerialDetail(
+                                      documentId: shop.id,
+                                      details: 'limit-total'),
                                   onTap: () {
                                     print(shop!.id);
                                     Navigator.push(
@@ -132,7 +152,8 @@ class _UserScreenState extends State<UserScreen> {
                                       MaterialPageRoute(
                                         builder: (context) => ShopInfo4User(
                                           documentId: shop!.id,
-                                          shopName: shop![SplashPageState.STORENAME],
+                                          shopName:
+                                              shop![SplashPageState.STORENAME],
                                         ),
                                       ),
                                     );

@@ -78,6 +78,7 @@ class SplashPageState extends State<SplashPage> {
   static const String EMAIL = "email";
   static const String PHONE = "phone";
   static const String STORENAME = "storeName";
+  static const String GIVESERIAL = "giveSerial";
   static const Color BRANDCOLOR = Color.fromRGBO(252,140,87, 1);
 
 

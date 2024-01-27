@@ -31,7 +31,7 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
     return Scaffold(
       // floatingActionButtonLocation:  FloatingActionButtonLocation.endFloat,
         appBar: AppBar(
-          title: const Text("Settings"),
+          title: Text("Settings"),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(35.0),

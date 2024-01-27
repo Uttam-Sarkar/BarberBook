@@ -99,6 +99,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                                       title: const Text('Set Limit'),
                                       content: TextField(
                                         keyboardType: TextInputType.number,
+                                        maxLength: 2,
                                         inputFormatters: <TextInputFormatter>[
                                           FilteringTextInputFormatter.digitsOnly
                                         ],
@@ -111,7 +112,6 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                                           child: Text('Save'),
                                           onPressed: () {
                                             if (inputNum >= 0) {
-                                              print("sss");
                                               collection
                                                   .doc(user!.uid)
                                                   .update({'limit': inputNum});

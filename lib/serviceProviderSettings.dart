@@ -164,43 +164,45 @@ class _ServiceProviderSettingsState extends State<ServiceProviderSettings> {
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
-              child: Column(
-                children: [
-                  TextFormField(
-                    obscureText: false,
-                    initialValue: storeName,
-                    decoration: const InputDecoration(labelText: "Store Name",icon: Icon(Icons.storefront)),
-                    onChanged: (text){
-                      storeName = text;
-                    },
-                  ),
-                  TextFormField(
-                    obscureText: false,
-                    initialValue: userName,
-                    decoration: const InputDecoration(labelText: "Name",icon: Icon(Icons.account_box)),
-                    onChanged: (text){
-                      userName = text;
-                    },
-                  ),
-                  TextFormField(
-                    obscureText: false,
-                    initialValue: phone,
-                    decoration: const InputDecoration(labelText: "Phone",icon: Icon(Icons.call)),
-                    onChanged: (text){
-                      phone = text;
-                    },
-                  ),
-                  TextFormField(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      obscureText: false,
+                      initialValue: storeName,
+                      decoration: const InputDecoration(labelText: "Store Name",icon: Icon(Icons.storefront)),
+                      onChanged: (text){
+                        storeName = text;
+                      },
+                    ),
+                    TextFormField(
+                      obscureText: false,
+                      initialValue: userName,
+                      decoration: const InputDecoration(labelText: "Name",icon: Icon(Icons.account_box)),
+                      onChanged: (text){
+                        userName = text;
+                      },
+                    ),
+                    TextFormField(
+                      obscureText: false,
+                      initialValue: phone,
+                      decoration: const InputDecoration(labelText: "Phone",icon: Icon(Icons.call)),
+                      onChanged: (text){
+                        phone = text;
+                      },
+                    ),
+                    TextFormField(
 
-                    obscureText: false,
-                    initialValue: email,
-                    decoration: const InputDecoration(labelText: "Email(Not Changeable)",icon: Icon(Icons.email_outlined)),
-                    // onChanged: (text){
-                    //   email = text;
-                    // },
-                  ),
+                      obscureText: false,
+                      initialValue: email,
+                      decoration: const InputDecoration(labelText: "Email(Not Changeable)",icon: Icon(Icons.email_outlined)),
+                      // onChanged: (text){
+                      //   email = text;
+                      // },
+                    ),
 
-                ],
+                  ],
+                ),
               ),
             ),
           ),

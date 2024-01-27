@@ -32,7 +32,7 @@ class _AddSerialState extends State<AddSerial> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        String inputText = "Customer";
+        String inputText = "Person";
 
         return AlertDialog(
           title: const Text('Input Name'),

@@ -62,6 +62,36 @@ class _SerialDetailState extends State<SerialDetail> {
                   fontWeight: FontWeight.bold,
                   color: Colors.black));
         }
+        if (widget.details == "limit-total") {
+          return FilledButton(
+            onPressed: (){},
+              child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("$total",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        //color: Colors.greenAccent,
+                      )),
+                    Text("/$limit",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          //color: Colors.greenAccent,
+                        )),
+                  ],
+                ),
+                const Text("time"),
+              ],
+
+            ),
+        );
+        }
 
         // End
 
@@ -125,9 +155,8 @@ class _SerialDetailState extends State<SerialDetail> {
                             collection.doc(widget.documentId).update({
                               'name': FieldValue.arrayRemove(val),
                             });
-                            collection.doc(widget.documentId).update(
-                                {
-                              'total': array.length-1,
+                            collection.doc(widget.documentId).update({
+                              'total': array.length - 1,
                             });
                           },
                           label: const Text("Done"),

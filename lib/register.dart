@@ -27,7 +27,7 @@ class _MyRegisterState extends State<MyRegister> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/images/register.png'),
               fit: BoxFit.cover)),
@@ -36,8 +36,8 @@ class _MyRegisterState extends State<MyRegister> {
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 38, top: 140),
-              child: Text(
+              padding: const EdgeInsets.only(left: 38, top: 140),
+              child: const Text(
                 'Create\nAccount',
                 style: TextStyle(color: Colors.white, fontSize: 35),
               ),
@@ -55,16 +55,16 @@ class _MyRegisterState extends State<MyRegister> {
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: const BorderSide(color: Colors.black),
                           ),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.white)),
+                              borderSide: const BorderSide(color: Colors.white)),
                           hintText: 'Name',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     TextField(
@@ -72,16 +72,16 @@ class _MyRegisterState extends State<MyRegister> {
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: const BorderSide(color: Colors.black),
                           ),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.white)),
+                              borderSide: const BorderSide(color: Colors.white)),
                           hintText: 'Email',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     TextField(
@@ -90,16 +90,16 @@ class _MyRegisterState extends State<MyRegister> {
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: const BorderSide(color: Colors.black),
                           ),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.white)),
+                              borderSide: const BorderSide(color: Colors.white)),
                           hintText: 'Password',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     SingleChildScrollView(
@@ -145,7 +145,7 @@ class _MyRegisterState extends State<MyRegister> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     Row(
@@ -160,7 +160,7 @@ class _MyRegisterState extends State<MyRegister> {
                         ),
                         CircleAvatar(
                           radius: 30,
-                          backgroundColor: Color(0xff4c505b),
+                          backgroundColor: const Color(0xff4c505b),
                           child: IconButton(
                             color: Colors.white,
                             onPressed: () {
@@ -206,17 +206,18 @@ class _MyRegisterState extends State<MyRegister> {
                                         child: Text("Sign up Successfully"),
                                       )),
                                 );
-                                if (role == "User")
+                                if (role == "User") {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => MyLogin()));
-                                else
+                                } else {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               SetStoreLocation()));
+                                }
                               }).onError((error, stackTrace) {
                                 print("Error ${error.toString()}");
                                 // error Notification
@@ -230,18 +231,18 @@ class _MyRegisterState extends State<MyRegister> {
                                 );
                               });
                             },
-                            icon: Icon(Icons.arrow_forward),
+                            icon: const Icon(Icons.arrow_forward),
                           ),
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           'Already have an account?',
                           style: TextStyle(
                             fontSize: 15,
@@ -255,7 +256,7 @@ class _MyRegisterState extends State<MyRegister> {
                                   MaterialPageRoute(
                                       builder: (context) => MyLogin()));
                             },
-                            child: Text(
+                            child: const Text(
                               'Log In',
                               style: TextStyle(
                                 decoration: TextDecoration.underline,

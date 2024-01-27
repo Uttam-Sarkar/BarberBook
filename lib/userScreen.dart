@@ -1,4 +1,5 @@
 import 'package:barberbook/main.dart';
+import 'package:barberbook/serialDetailsList.dart';
 import 'package:barberbook/shopInfo4User.dart';
 import 'package:barberbook/userSettings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,6 +20,7 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   // for appBar
   String appBar = '';
+
   final LocationService locationService = LocationService();
   Position? _currentPosition;
   List<DocumentSnapshot>? _nearestShops;
@@ -58,8 +60,8 @@ class _UserScreenState extends State<UserScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CircleAvatar(
-          child: Icon(Icons.person),
           backgroundColor: Colors.black45,
+          child: Icon(Icons.person),
         ),
         title: Text(appBar),
         centerTitle: false,
@@ -77,14 +79,8 @@ class _UserScreenState extends State<UserScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
-            ),
-            Container(
-              height: 50,
-              width: double.infinity,
-              color: Colors.red,
-              child: Text("Uttam"),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -116,7 +112,7 @@ class _UserScreenState extends State<UserScreen> {
                                   leading: CircleAvatar(
                                       child: Text(
                                     "${index + 1}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
                                   )),
@@ -125,10 +121,9 @@ class _UserScreenState extends State<UserScreen> {
                                     //"Latitude: ${shop?['latitude']} | ${shop?.id}| Longitude: ${shop?['longitude']} | Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters ",
                                     "Distance: ${_calculateDistance(shop?['latitude'], shop?['longitude'], _currentPosition!.latitude, _currentPosition!.longitude).toStringAsFixed(2)} meters",
                                   ),
-                                  trailing: Icon(
-                                    Icons.arrow_forward,
-                                    color: SplashPageState.BRANDCOLOR,
-                                  ),
+                                  trailing:  SerialDetail(
+                                      documentId: shop.id, details: 'limit-total'),
+
                                   onTap: () {
                                     print(shop!.id);
                                     Navigator.push(

@@ -6,6 +6,7 @@ import 'package:barberbook/switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'addSerial.dart';
 import 'main.dart';
@@ -37,8 +38,8 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CircleAvatar(
-          child: Icon(Icons.person),
           backgroundColor: Colors.black45,
+          child: Icon(Icons.person),
         ),
         title: Text(appBar),
         centerTitle: true,
@@ -60,6 +61,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
             const SizedBox(
               height: 20,
             ),
+            // total limit ans switch
             Container(
                 //height: 50,
                 //color: Colors.green,
@@ -79,7 +81,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                     ),
                     Row(
                       children: [
-                         Text(
+                        const Text(
                           "Limit : ",
                           style: TextStyle(
                               fontSize: 20,
@@ -88,7 +90,45 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                         ),
                         SerialDetail(documentId: user!.uid, details: 'limit'),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    int inputNum = -1;
+                                    return AlertDialog(
+                                      title: const Text('Set Limit'),
+                                      content: TextField(
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        onChanged: (number) {
+                                          inputNum = int.parse(number);
+                                        },
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Save'),
+                                          onPressed: () {
+                                            if (inputNum >= 0) {
+                                              print("sss");
+                                              collection
+                                                  .doc(user!.uid)
+                                                  .update({'limit': inputNum});
+                                            }
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text('Cancel'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
                             icon: const Icon(Icons.arrow_upward))
                       ],
                     ),

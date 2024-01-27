@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         iconTheme: const IconThemeData(
           //size: 35,
           // why colors Dont Work
-          color: Colors.deepPurpleAccent
+          color: Colors.greenAccent
         ),
         //cardColor: Colors.orange,
        // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(200,150,207, 1)),

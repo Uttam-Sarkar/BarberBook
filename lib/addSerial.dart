@@ -43,7 +43,7 @@ class _AddSerialState extends State<AddSerial> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('OK'),
+              child: Text('Save'),
               onPressed: () async {
                 int count = 1;
                 // print(_count.toString());

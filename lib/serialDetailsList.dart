@@ -99,7 +99,7 @@ class _SerialDetailState extends State<SerialDetail> {
         // End
 
         if (array.isEmpty) {
-          return const Text('No data available');
+          return const Center(child: Text('No data available'));
         }
 
         //list tiles Start here

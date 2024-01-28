@@ -51,7 +51,7 @@ class _UserScreenState extends State<UserScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchLocation();
+     _fetchLocation();
     _fetchFromLocalStorage();
   }
 
@@ -82,6 +82,7 @@ class _UserScreenState extends State<UserScreen> {
             const SizedBox(
               height: 30,
             ),
+   // Available Shops
             Container(
               padding: EdgeInsets.only(left: 20, right: 20, bottom: 5,top: 5),
               decoration: BoxDecoration(
@@ -93,6 +94,7 @@ class _UserScreenState extends State<UserScreen> {
                 style: TextStyle(fontSize:20,fontWeight: FontWeight.bold),
               ),
             ),
+   //Shop List Box
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -164,14 +166,11 @@ class _UserScreenState extends State<UserScreen> {
                           );
                         },
                       )
-                    : Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _fetchLocation();
-                          },
-                          child: const Text("Nearest Available Shops"),
-                        ), // Show loading indicator while fetching data
-                      ),
+                     : FutureBuilder(future: _fetchLocation(),
+                    builder: (context, snapsot){
+                        return const Center(child: CircularProgressIndicator());
+                    },
+                )
               ),
             ),
           ],
@@ -187,4 +186,5 @@ class _UserScreenState extends State<UserScreen> {
       appBar = userName!;
     });
   }
+
 }

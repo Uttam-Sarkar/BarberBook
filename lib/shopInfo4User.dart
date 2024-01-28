@@ -1,7 +1,6 @@
 import 'package:barberbook/serialDetailsList.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +18,8 @@ class ShopInfo4User extends StatefulWidget {
 
 class _ShopInfo4UserState extends State<ShopInfo4User> {
   var userName = "user";
+  String phone = "";
+
   User? _user;
   bool giveSerial = false;
 
@@ -28,6 +29,7 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
     _fetchFromLocalStorage();
     // Get the current user
     _user = FirebaseAuth.instance.currentUser;
+
     // FirebaseFirestore.instance
     //     .collection('serialList')
     //     .doc(_user!.uid)
@@ -39,7 +41,15 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.shopName),
+          title: ListTile(
+            title: Text(widget.shopName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+            subtitle: Row(
+              children: [
+                Icon(Icons.call_rounded,size: 15),
+                Text(" $phone"),
+              ],
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.only(top: 18, bottom: 5, left: 10, right: 10),
@@ -89,10 +99,8 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
                     giveSerial = !giveSerial;
                     FirebaseFirestore.instance
                         .collection('users')
-                        .doc(_user!.uid).update({
-                      SplashPageState.GIVESERIAL : giveSerial
-
-                    });
+                        .doc(_user!.uid)
+                        .update({SplashPageState.GIVESERIAL: giveSerial});
                     sharePref.setBool(SplashPageState.GIVESERIAL, giveSerial);
                   });
 
@@ -150,36 +158,40 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
                     });
                     // Navigator.of(context).pop();
                   } else {
-                    var total ;
+                    var total;
                     var val = [];
                     val.add(userName);
 
                     var collection =
-                    FirebaseFirestore.instance.collection('serialList');
+                        FirebaseFirestore.instance.collection('serialList');
 
-                    collection.doc(widget.documentId)
-                        .update({
-                      'name' : FieldValue.arrayRemove(val),
+                    collection.doc(widget.documentId).update({
+                      'name': FieldValue.arrayRemove(val),
                     });
 
-
-                    collection.doc(widget.documentId).get().then((documentSnapshot) {
+                    collection
+                        .doc(widget.documentId)
+                        .get()
+                        .then((documentSnapshot) {
                       if (documentSnapshot.exists) {
-                       //array,serial_list length
+                        //array,serial_list length
 
                         total = documentSnapshot.data()?['total'];
-
                       }
                     }).then((value) {
-
-                      collection.doc(widget.documentId).update({
-                        'total' : total-1
-                      });
+                      collection
+                          .doc(widget.documentId)
+                          .update({'total': total - 1});
                     });
                   }
                 },
-                backgroundColor:giveSerial ? Colors.red : Colors.green,
-                child: giveSerial ?  Text('X',style: TextStyle(fontSize: 20),) : Icon(Icons.add),
+                backgroundColor: giveSerial ? Colors.red : Colors.green,
+                child: giveSerial
+                    ? Text(
+                        'X',
+                        style: TextStyle(fontSize: 20),
+                      )
+                    : Icon(Icons.add),
               ),
             ],
           ),
@@ -190,6 +202,16 @@ class _ShopInfo4UserState extends State<ShopInfo4User> {
     var sharePref = await SharedPreferences.getInstance();
     userName = sharePref.getString(SplashPageState.USERNAME)!;
     giveSerial = sharePref.getBool(SplashPageState.GIVESERIAL)!;
+    var p = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_user!.uid)
+        .get().
+    then((DocumentSnapshot documentSnapshot) {
+      if(documentSnapshot.exists){
+        phone = documentSnapshot.get(SplashPageState.PHONE);
+
+      }
+    });
 
     // setState(() {
     //   appBar = userName!;

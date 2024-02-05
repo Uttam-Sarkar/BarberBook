@@ -92,10 +92,17 @@ class SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.blue,
-        child:const Center(
-            child: Icon(Icons.account_circle, color: Colors.white,),
+      body: Center(
+        child: Container(
+           width: double.infinity,
+          //   height: ,
+            decoration: const BoxDecoration(
+
+                image: DecorationImage(
+
+                    image: AssetImage('assets/images/logo.png'),
+
+                    fit: BoxFit.cover))
         ),
       ),
     );
